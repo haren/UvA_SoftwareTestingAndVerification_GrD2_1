@@ -1,0 +1,17 @@
+1_18 - pretty straightforward
+
+1_19
+head :: [a] -> a 
+
+last :: [a] -> a 
+
+init :: [a] -> [a]
+
+fst :: (a,b) -> a
+
+(++) :: [a] -> [a] -> [a]
+
+flip :: (a -> b -> c) -> b -> a -> c
+
+flip (++) :: [a] -> [a] -> [a]
+
