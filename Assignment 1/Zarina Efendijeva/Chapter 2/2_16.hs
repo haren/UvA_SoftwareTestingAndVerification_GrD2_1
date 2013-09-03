@@ -1,6 +1,5 @@
 module Chapter_2_exercise2_16 where
 
-
 infix 1 <=>
 (<=>) :: Bool -> Bool -> Bool
 x <=> y = x == y
