@@ -1,0 +1,5 @@
+
+Exercise 2.22
+
+This statement is true, simply because the amount of rational numbers is infinite.
+So there is always some number between two others.
