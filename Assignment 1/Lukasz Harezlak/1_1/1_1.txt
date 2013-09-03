@@ -1,0 +1,4 @@
+Operators sorted by priority (highest first):
+^
+* / 
++ - 
