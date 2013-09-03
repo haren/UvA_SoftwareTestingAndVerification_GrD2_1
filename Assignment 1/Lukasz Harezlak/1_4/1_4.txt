@@ -1,0 +1,1 @@
+It wouldn't, because k^2 == n => n % k = 0, so the first condition would be met and second clause would never be hit by the execution flow.
