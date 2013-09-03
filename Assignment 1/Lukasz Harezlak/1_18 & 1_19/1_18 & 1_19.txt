@@ -14,4 +14,3 @@ fst :: (a,b) -> a
 flip :: (a -> b -> c) -> b -> a -> c
 
 flip (++) :: [a] -> [a] -> [a]
-
