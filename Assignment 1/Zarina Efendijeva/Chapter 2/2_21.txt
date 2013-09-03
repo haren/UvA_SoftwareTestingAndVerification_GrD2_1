@@ -1,0 +1,15 @@
+
+Exercise 2.21
+
+1. For example: Q => P
+
+2. There are 4 operators that combine 2 letters ( not counting operator Not).
+So 4 truth standard truth tables for 2 letters formulas.
+With 2 letters formulas you have truth tables with 4 rows.
+
+3. If by finding formulas for all of them you mean standard truth tables for operators, then yes.
+
+4. Logicly 
+
+5. Truth table with 3 letter formulas have a truth table with 8 rows ( all possible combinations of T - F )
+There is a simple algorithm to find it out:  2 ^ n, where n is amount of letters in formula.
