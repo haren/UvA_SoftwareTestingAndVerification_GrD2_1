@@ -51,7 +51,7 @@ unique p xs = length (filter p xs) == 1
 -- exercise 2.52
 -- An even number is probably an even element number? the exercise is not well defined
 parity :: [Bool] -> Bool
-parity xs = (length (filter (\x -> even (snd x) && (fst x) == True) (zip xs [0..]))) == 1
+parity xs = any (\x -> even (snd x) && (fst x) == True) (zip xs [1..])
 
 -- exercise 2.53
 evenNR :: (a -> Bool) -> [a] -> Bool
