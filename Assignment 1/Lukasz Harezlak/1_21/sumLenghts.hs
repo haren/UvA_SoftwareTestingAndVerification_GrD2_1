@@ -1,0 +1,1 @@
+sumLenghts = sum . map length
