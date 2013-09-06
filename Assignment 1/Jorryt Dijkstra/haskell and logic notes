@@ -1,0 +1,79 @@
+use of logic in practice, more in particular the use of logic in reasoning about programming tasks. Logic is not taught here as a mathematical discipline per se, but as an aid in the understanding and construction of proofs, and as a tool for reasoning about formal objects like numbers, lists, trees, formulas, and so on. As we go along, we will introduce the concepts and tools that form the set-theoretic basis of mathematics, and demonstrate the role of these concepts and tools in implementations. These implementations can be thought of as representations of the mathematical concepts.
+
+The expression divides 5 :: Integer -> Bool is called a type judgment. Type judgments in Haskell have the form expression :: type.
+The system can sometimes infer the type from the definition. However, it is good practice to give explicit type declarations even when this is not strictly necessary.
+
+Variable identifiers are used to name functions. They have to start with a lower-case letter. E.g., map, max, fct2list, fctToList, fct_to_list.
+• Constructor identifiers are used to name types. They have to start with an uppercase letter like True and False
+
+A function can be converted to an infix operator by putting its name in back quotes.
+Conversely, an infix operator is converted to prefix by putting the operator in round brackets
+
+[a] is the type of a list of objects of an arbitrary type a. We say that [a] is a type scheme rather than a type
+
+If op is an infix operator, (op) is the prefix version of the operator. Thus, 2^10 can also be written as (^) 2 10
+
+A so-called destructive assignment statement (in imperative languages): the old value of a variable is destroyed and replaced by a new one (x = x * 2).
+
+The number 1 in the infix declaration indicates the binding power (binding power 0 is lowest, 9 is highest). A declaration of an infix operator together with an indication of its binding power is called a fixity declaration.
+
+Logical Validities. There are propositional formulas that receive the value true no matter what the values of the occurring letters. Such formulas are called (logically) valid.
+
+Truth Table of an Expression. If an expression contains n letters P, Q, . . ., then there are 2n possible distributions of the truth values between these letters. The 2n-row table that contains the calculations of these values is the truth table of the expression.
+
+We agree that ^ and V bind more strongly than => and <=>
+
+a negation of an implication can be rewritten as a conjunction, a negation of a conjunction (disjunction) is a disjunction (conjunction).
+
+The next theorem lists some useful principles for reasoning with ⊤ (the proposition that is always true; the Haskell counterpart is True) and ⊥ (the proposition that is always false; the Haskell counterpart of this is False)
+
+¬(a=2b −1⇒aisprime)≡a=2b −1∧aisnotprime
+
+hard but understandable if you understand that negated P can also be replaced and that in this case thus Q also will be affected
+
+An open formula is a formula with one or more unbound variables in it. 
+
+A composite formula is constructed of simpler parts.
+
+∀x ∈ Q, as standalone is not a formula, so ∀x ∈ Q ^ p => q is incorrect
+
+∀ univeral quantifier that means for all, ∃ existential quantifier (there exists)
+
+Domain of quantification is necessary with restricted quantifiers. Unrestricted examples: ∀x ∈ A(x >= 0), ∃y ∈ B(y < a) where both A and B are sets (they are restricted to the sets).
+∀x ∈ R∃y ∈ R(x < y) can be rewritten as ∀x∃y(x < y) if we say R is the domain of quantification.
+
+The abstraction notation: { x ∈ A | P } . The haskell counter part is list comprehension: [ x | x <- list, property x ]
+
+lambda abstraction: if x is type a and t is type b then \x.t is a lambda abstraction (a function that sends x to b)
+
+existential quantifier is 'any' in haskell, the universal quantifier is 'all' in haskell
+
+\ x -> \ y -> x*y is the same as \ x y -> x*y
+
+The quantifier ∀ is a function that maps properties to truth values according to the recipe: if the property holds of the whole domain then t, else f (\x -> Px).
+The quantifier ∃ is a function that maps properties to truth values according this recipe: if the property holds of anything at all then t, else f.
+
+A structure is a domain of quantification, together with a meaning for the abstract symbols that occur.
+A meaningful statement is the result of interpreting a logical formula in a certain structure.
+An occurrence of a variable in an expression that is not (any more) in the scope of a quantifier is said to be free in that expression. This results in open formulas. Open formulas can be turned into statements by two ways, adding quantifiers to free variables or replacing free variables with domain objects.
+Formulas are (logically) equivalent if they obtain the same truth value in every structure (i.e., if there is no structure in which one of them is true and the other one is false).
+
+The order of similar quantifiers (all universal or all existential) is irrelevant. But note that this is not the case for quantifiers of different kind.
+
+∀y∀x(x<y =⇒ ∃z(x<z ∧ z<y)) can be rewritten as ∀y∀x < y∃z < y(x < z), this is due to restricted quantification
+∀x∈A Φ(x) means the same as ∀x(x ∈ A ⇒ Φ(x))
+∃x∈A Φ(x) is tantamount (equivalent) with ∃x(x ∈ A ∧ Φ(x))
+Warning: The restricted universal quantifier is explained using ⇒, whereas the existential quantifier is explained using ∧ !
+
+---
+dont understand/notes:
+Warning on page 45 (is that about equivalence versus iff)
+Instead of ∃x(Ax ∧ . . .) one can write ∃x ∈ A(. . .) on page 53, isn't this a typo for ∃x(x ∈ A ∧ . . .)?
+page 54 is important!
+page 55, bad habits needs a reread :)
+page 58, point 5 need to read this with sander
+page 61, reread the redefinition to make sure you understand
+Example 2.45 is important
+2.46, 2.47 not sure....
+Exercise 2.34, answer 2 needs to be checked
+Exercise 2.48, did i interpret this correctly?

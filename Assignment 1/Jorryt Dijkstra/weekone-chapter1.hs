@@ -1,3 +1,4 @@
+import TAMO
 exercise1_1 a = 2^3 * 3 + 5 - 1 + 4 / 2 * a
 
 -- Exercise1_2
@@ -71,8 +72,12 @@ count c (x:xs)
 -- Exercise 1.14
 blowup :: String -> String
 blowup [] = []
-blowup (x:y:zs) =
-	x : y : y : blowup zs
+blowup xs = blowup' xs 0
+
+blowup' :: String -> Int -> String
+blowup' [] _ = [] -- TODO without nr parameter
+blowup' (x:xs) n = (take (n+1) (repeat x)) ++ blowup' xs (n+1)
+
 
 removeFstString :: [String] -> String -> [String]
 removeFstString [] y = error "empty list"
@@ -109,7 +114,55 @@ checkSubstring (x:xs) (y:ys)
 --}
 
 -- Exercise 1.19
+{--
+	head :: [a] -> a: takes the first element of an array
+	last :: [a] -> a: takes the last element of an array
+	init :: [a] -> [a]: cuts the last element off of an array
+	fst :: (a, b) -> a : returns the first item in a tuple
+	(++) :: [a] -> [a] -> [a]: combines two lists
+	flip :: (a -> b -> c) -> b -> a -> c: reverse parameter order of a function
+	flip (++) :: [a] -> [a] -> [a]: combine lists in reverse
+--}
 
+-- prime factorization
+factors :: Integer -> [Integer]
+factors n
+	| n < 1 = error "argument not positive" 
+	| n == 1 = []
+	| otherwise = p : factors (div n p) where p = ld n
+
+-- Exercise 1.20
+listLengths :: [[a]] -> [Int]
+listLengths [] = [0]
+listLengths xs = map (length) xs
+
+-- Exercise 1.21
+sumLengths :: [[a]] -> Int
+sumLengths [] = 0
+sumLengths xs = sum (listLengths xs)
+
+ldp :: Integer -> Integer
+ldp = ldpf primes1
+ldpf :: [Integer] -> Integer -> Integer
+ldpf (p:ps) n | rem n p == 0 = p
+	| p^2 > n = n
+	| otherwise = ldpf ps n
+
+primes0 :: [Integer]
+primes0 = filter prime0 [2..]
+
+primes1 :: [Integer]
+primes1 = 2 : filter prime [3..]
+
+prime :: Integer -> Bool
+prime n | n < 1 = error "not a positive integer"
+		| n == 1 = False
+		| otherwise = ldp n == n
+
+-- Exercise 1.24
+{--
+	It does not affect the behaviour of the function at all but is a shorter writing (writing a parameter that is passed on is redundant)
+--}
 
 
 
