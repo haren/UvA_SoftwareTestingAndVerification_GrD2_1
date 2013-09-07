@@ -12,7 +12,7 @@ x ==> y = (not x) || y
 
 logEquiv1 ::  (Bool -> Bool) -> (Bool -> Bool) -> Bool
 logEquiv1 bf1 bf2 =  
-    (bf1 True  <=> bf2 True) && (bf1 False <=> bf2 False) 
+    (bf1 True <=> bf2 True) && (bf1 False <=> bf2 False) 
 	
 		
 test1a = logEquiv1 (\  p -> not True )(\  p -> True )

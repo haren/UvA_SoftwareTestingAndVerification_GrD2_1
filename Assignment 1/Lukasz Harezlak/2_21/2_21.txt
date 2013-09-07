@@ -1,0 +1,10 @@
+1. ? = p v ~q
+2. 2 ^ (2^2) = 16
+
+4. one could always try an alternative / conjunctions of all input letters, simply negating different combinations of negated letters - very inefficient, would work in the end for each combination.
+
+5. 2 ^ (2^3) = 256
+generally: 2 ^ (2^n), where n is the number of letters in a formula
+
+e.g. if we have 3 letters we have 2^3 = 8 possible inputs.
+on the output we can have 0 or 1 for each input combination, which gives 2^8 = 256 possible combinations.
