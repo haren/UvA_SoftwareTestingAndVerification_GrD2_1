@@ -10,26 +10,32 @@ formula10 p q = not (p =	=> q) <=> p && not q
 --}
 
 -- Exercise 2.13
-test2_12a = logEquiv2 (\p q -> not True) (\p q -> False)
-test2_12a_2 = logEquiv2 (\p q -> not False) (\p q -> True)
-test2_12b = logEquiv2 (\p q -> p ==> False) (\p q -> not p)
-test2_12c = logEquiv2 (\p q -> p || True) (\p q -> True)
+test2_12a = logEquiv1 (\p -> not True) (\p -> False)
+test2_12a_2 = logEquiv1 (\p -> not False) (\p -> True)
+test2_12b = logEquiv1 (\p -> p ==> False) (\p -> not p)
+test2_12c = logEquiv1 (\p -> p || True) (\p -> True)
 test2_12c_2 = logEquiv1 (\p -> p && False) (\p -> False)
 test2_12d = logEquiv1 (\p -> p || False) (\p -> p)
 test2_12d_2 = logEquiv1 (\p -> p && True) (\p -> p)
 test2_12e = logEquiv1 (\p -> p || (not) p) (\p -> True)
 test2_12f = logEquiv1 (\p -> p && (not) p) (\p -> False)
 
-
 -- Exercise 2.15
-testContradiction1 ::  (Bool -> Bool) -> Bool
-testContradiction1 f = (f True <=> False) && (f False <=> False)
+contradiction1 ::  (Bool -> Bool) -> Bool
+contradiction1 f = (f True <=> False) && (f False <=> False)
 
-testContradiction2 ::  (Bool -> Bool) -> Bool
-testContradiction2 f = and [f p <=> False | p <- [True, False]]
+contradiction2 ::  (Bool -> Bool -> Bool) -> Bool
+contradiction2 f = and [f p q <=> False | p <- [True, False]]
 
-testContradiction3 ::  (Bool -> Bool -> Bool) -> Bool
-testContradiction3 f = and [f p q <=> False | p <- [True, False], q <- [True, False]]
+contradiction3 ::  (Bool -> Bool -> Bool -> Bool) -> Bool
+contradiction3 f = and [f p q r <=> False | p <- [True, False], q <- [True, False], r <- [True, False]]
+
+
+-- Thanks Zarina :P
+testContradiction1 = contradiction1 (\  p -> p && not p  )
+testContradiction2 = contradiction2 (\ p q -> p && (q && not q))
+testContradiction3 = contradiction3 (\ p q r -> ((p && r) || (q && not r)) <=>((not p && r) || (not q && not r )))
+
 
 exercise2_18a = logEquiv2 (\p q -> p <=> q) (\p q -> ((not) p) <=> ((not) q)) 
 exercise2_18b = logEquiv2 (\p q -> ((not) p) <=> q) (\p q -> p <=> ((not) q))
