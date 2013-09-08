@@ -1,0 +1,1 @@
+One can always divide the difference between (e.g. by 2) two numbers and add it to the smaller one or substract from the larger one.
