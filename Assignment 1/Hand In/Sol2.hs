@@ -6,9 +6,12 @@ Group:
 	Lukasz Harezlak
 --}
 
-module Sol2  where
-	import GS
-	import TAMO
+module Sol2 where
+import GS
+import TAMO
+
+-- Exercise 2.4
+testExercise2_4 = ((True <+> False) && ((not)(True <+> True)) && ((not)(False <+> False)) && (False <+> True))
 
 -- Exercise 2.13
 exercise2_13a = logEquiv1 (\p -> not True) (\p -> False)
@@ -34,3 +37,29 @@ contradiction3 f = and [f p q r <=> False | p <- [True, False], q <- [True, Fals
 testContradiction1 = contradiction1 (\  p -> p && not p  )
 testContradiction2 = contradiction2 (\ p q -> p && (q && not q))
 testContradiction3 = contradiction3 (\ p q r -> ((p && r) || (q && not r)) <=>((not p && r) || (not q && not r )))
+
+-- Exercise 2.18
+exercise2_18a = logEquiv2 (\p q -> p <=> q) (\p q -> ((not) p) <=> ((not) q)) 
+exercise2_18b = logEquiv2 (\p q -> ((not) p) <=> q) (\p q -> p <=> ((not) q))
+
+-- Exercise 2.20
+exercise2_20a = logEquiv2 (\p q -> (not p) ==> q) (\p q -> p ==> (not q))
+exercise2_20b = logEquiv2 (\p q -> (not p) ==> q) (\p q -> q ==> (not p))
+exercise2_20c = logEquiv2 (\p q -> (not p) ==> q) (\p q -> (not) q ==> p)
+exercise2_20d = logEquiv3 (\p q r -> p ==> (q ==> r)) (\p q r -> q ==> (p ==> r))
+exercise2_20e = logEquiv3 (\p q r -> p ==> (q ==> r)) (\p q r -> (p ==> q) ==> r)
+exercise2_20f = logEquiv2 (\p q -> (p ==> q) ==> p) (\p q -> p)
+exercise2_20g = logEquiv3 (\p q r -> p || q ==> r) (\p q r -> (p ==> r) && (q ==> r))
+
+-- Exercise 2.51
+unique :: (a -> Bool) -> [a] -> Bool
+unique p xs = length (filter p xs) == 1
+
+-- Exercise 2.52
+-- An even number is probably an even element number? the exercise is not well defined
+parity :: [Bool] -> Bool
+parity xs = any (\x -> even (snd x) && (fst x) == True) (zip xs [1..])
+
+-- Exercise 2.53
+evenNR :: (a -> Bool) -> [a] -> Bool
+evenNR p xs = parity (map p xs)
