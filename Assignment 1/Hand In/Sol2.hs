@@ -1,10 +1,12 @@
-{--
-Group:
-	Cigdem Aytekin
-	Jorryt Dijkstra
-	Zarina Efendijeva
-	Lukasz Harezlak
---}
+-- Software verification and testing
+-- Lab Assignment 1
+
+-- Group D2_1
+-- Cigdem Aytekin 10463135,
+-- Jorryt Jan Dijkstra 10462015,
+-- Zarina Efendijeva TODO, 
+-- Lukasz Harezlak, 10630171
+
 
 module Sol2 where
 import GS

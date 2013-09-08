@@ -2,9 +2,9 @@
 -- Lab Assignment 1
 
 -- Group D2_1
--- Cigdem Aytekin, 104 63 135
--- Jooryt Jan Dijkstra,
--- Zarina Efendijeva, 
+-- Cigdem Aytekin 10463135,
+-- Jorryt Jan Dijkstra 10462015,
+-- Zarina Efendijeva TODO, 
 -- Lukasz Harezlak, 10630171
 
 -- Chapter 1
