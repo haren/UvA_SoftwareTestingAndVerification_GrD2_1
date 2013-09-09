@@ -1,23 +1,17 @@
 import Week2
 
--- testing helpful material
+--time spent on excercise: 
 
--- any (1==) [0,1,2,3,4,5]
--- if any of the 2 argument meets the condition, return true
-
-
-
--- satisfiable :: Form -> Bool
--- satisfiable f = any (\ v -> eval v f) (allVals f)
-
+-- contradiction
 contradiction :: Form -> Bool
---contradiction f = not any (\ v -> eval v f) (allVals f)
 contradiction f = not (satisfiable f)
 
---tautology :: Form -> Bool
+-- tautology 
+tautology :: Form -> Bool
+tautology f = all (\ v -> eval v f) (allVals f)
 
 -- logical entailment
---entails :: Form -> Form -> Bool
+-- entails :: Form -> Form -> Bool
 
 -- logical equivalence
 --equiv :: Form -> Form -> Bool
@@ -25,6 +19,8 @@ contradiction f = not (satisfiable f)
 -- test variables
 testContradictionTrue = Equiv p (Neg p)
 testContradictionFalse = Equiv p (Impl (Neg p) p)
+testTautologyTrue = Equiv p (Neg (Neg p))
+testTautologyFalse = Equiv p (Impl p q)
 
 -- testing results
 {-
@@ -32,5 +28,14 @@ testContradictionFalse = Equiv p (Impl (Neg p) p)
 True
 *Main> contradiction testContradictionFalse
 False
-*Main>
+
+*Main> tautology testTautologyFalse
+False
+*Main> tautology testTautologyTrue
+True
+*Main> tautology testContradictionFalse --which is true - testContradictionFalse is a tautology
+True
+*Main> tautology testContradictionTrue
+False
+
 -}
