@@ -2,6 +2,7 @@
 -- Software Testing - Lab Assignment 2
 import Data.List
 import Data.Array.IO
+import Week2
 
 data Shape = NoTriangle | Equilateral | Isosceles | Rectangular | Other deriving (Eq, Show)
 triangle :: Integer -> Integer -> Integer -> Shape
@@ -77,3 +78,19 @@ inputOther (x:xs) (y:ys) (z:zs)
 		tail = inputOther xs ys zs
 
 testTriangle = testEquilateral && testIscosceles && testPythagoras && testNoTriangle && testOther
+
+------
+
+contradiction :: Form -> Bool
+contradiction f = all (\v -> not $ eval v f) (allVals f)
+
+tautology :: Form -> Bool
+tautology f = all (\v -> eval v f) (allVals f)
+
+entails :: Form -> Form -> Bool
+entails x y = tautology $ Impl x y
+
+equiv :: Form -> Form -> Bool
+equiv x y = tautology $ Equiv x y
+
+testEquiv = equiv p p
