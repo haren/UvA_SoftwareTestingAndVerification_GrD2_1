@@ -5,7 +5,7 @@ data Shape = NoTriangle | Equilateral | Rectangular | Isosceles | Other deriving
 triangle :: Int -> Int -> Int -> Shape
 
 triangle a b c
-	| a <= 0 || b <= 0 || c <= 0 = NoTriangle 	-- Checking if sides are negative or equal to 0, if so then it's not a triangle
+	| (a <= 0 || b <= 0 || c <= 0) || (a + b <= c || b + c <= a || a + c <= b) = NoTriangle 	-- Checking if sides are negative or equal to 0, if so then it's not a triangle and checking if sum of 2 sides is bigger than the 3rd one, if not then not a triangle
 	| a == b && b == c  = Equilateral			-- Checking if 3 sides are equal to satisfy equilaterality 
 	| ((a> b && a>c) || (b>a && b >c) || (c>a && c>b)) && 								-- Searching for hypotenuse
 	  ( a/=b || b/=c || a/=c) && 														-- Excluding Isosceles triangle
