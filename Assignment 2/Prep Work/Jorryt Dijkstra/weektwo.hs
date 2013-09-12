@@ -1,9 +1,9 @@
 -- J. Dijkstra
 -- Software Testing - Lab Assignment 2
 import Data.List
-import Data.Array.IO
 import Week2
 
+-- 1.5h inclusive tests
 data Shape = NoTriangle | Equilateral | Isosceles | Rectangular | Other deriving (Eq, Show)
 triangle :: Integer -> Integer -> Integer -> Shape
 triangle x y z
@@ -80,9 +80,10 @@ inputOther (x:xs) (y:ys) (z:zs)
 testTriangle = testEquilateral && testIscosceles && testPythagoras && testNoTriangle && testOther
 
 ------
+-- Time spent: 1h inclusive tests
 
 contradiction :: Form -> Bool
-contradiction f = all (\v -> not $ eval v f) (allVals f)
+contradiction f = all (\v -> not $ eval v f) (allVals f) -- not satisfiable would also work here
 
 tautology :: Form -> Bool
 tautology f = all (\v -> eval v f) (allVals f)
@@ -93,6 +94,7 @@ entails x y = tautology $ Impl x y
 equiv :: Form -> Form -> Bool
 equiv x y = tautology $ Equiv x y
 
+-- equivalences in a list in the form of tuples (a, b) where a represents formula a of the equality and b formula b 
 equivalences1 = [(Cnj[p,p],p), (p,p), (p, Neg $ Neg $ p), ((Impl p q), Dsj[Neg p, q]), (Neg $ (Impl p q), Cnj[p, Neg q]), ((Impl (Neg p) (Neg q)), (Impl q p)), ((Impl p (Neg q)), (Impl q (Neg p))), ((Impl (Neg p) q), (Impl (Neg q) p))] -- Theorem 2.10
 equivalences2 = [((Equiv p q), Cnj[Impl p q, Impl q p]), ((Equiv p q), Dsj[Cnj[p, q], Cnj[Neg p, Neg q]]), (Cnj[p, q], Cnj[q, p]), (Dsj[p, q], Dsj[q, p]), ((Neg $ Cnj[p, q]), Dsj[Neg p, Neg q]), ((Neg $ Dsj[p, q]), Cnj[Neg p, Neg q])] -- Theorem 2.10
 equivalences3 = [((Cnj[p, (Cnj[q, r])]), Cnj[(Cnj[p, q]), r]), ((Dsj[p, (Dsj[q, r])]), Dsj[(Dsj[p, q]), r]), ((Cnj[p, (Dsj[q, r])]), Dsj[(Cnj[p, q]), Cnj[p, r]]), ((Dsj[p, (Cnj[q, r])]), Cnj[(Dsj[p, q]), Dsj[p, r]])] -- Theorem 2.10
@@ -101,8 +103,40 @@ equivalences :: [(Form, Form)]
 equivalences = equivalences1 ++ equivalences2 ++ equivalences3
 
 testEquiv = inputEquivalences equivalences
-testEntails = (entails p p) && (entails q q) && (entails r r)
+testEntails = (entails p p) && (entails q q) && (entails r r) && (entails (Dsj[p, q, r]) (Dsj[p, q, r])) && (not $ entails p q)
+
+-- Actually tested with the equiv/entails, but this does rely on those methods, should we (because we probably shouldnt know the implementation of those functions at all and thus test it here separately)?
+testTautology = (tautology $ Dsj[p, Neg p]) && (tautology $ Impl p p)
 
 inputEquivalences :: [(Form, Form)] -> Bool
 inputEquivalences [] = True;
 inputEquivalences (x:xs) = (equiv (fst x) (snd x)) && inputEquivalences xs
+
+testContradiction = contradiction (Cnj[Neg p, p]) -- need more testcases please
+
+--------
+
+-- 3h if not more, took a while to decode the slides to a working form (figured I needed an auxillery method)
+
+cnf :: Form -> Form
+cnf (Prop l) = Prop l
+cnf (Cnj c) = Cnj (map (\x -> cnf x) c)
+cnf (Dsj d) = distlist (map cnf d) -- dist over the complete disjunction list
+
+distlist :: [Form] -> Form
+distlist [x] = x
+distlist (x:xs) = dist x (distlist xs)
+
+dist :: Form -> Form -> Form
+dist (Cnj x) y = Cnj (map (\z -> dist z y) x)
+dist x (Cnj y) = Cnj (map (\z -> dist x z) y)
+dist x y = Dsj[x, y]
+
+cnftests :: [(Form, Form)] -- [(input of cnf, output of cnf)]
+cnftests = [(Dsj[Cnj[p,q],r], Cnj[Dsj[p,r],Dsj[q,r]]),  (Dsj[p, Cnj[q, r]], Cnj[Dsj[p, q], Dsj[p, r]])] -- Taken from the example in the slides :)
+testcnf = inputcnf cnftests
+
+inputcnf :: [(Form, Form)] -> Bool
+inputcnf (x:xs) = ((cnf (nnf (arrowfree (fst x)))) == (snd x)) && inputcnf xs
+inputcnf [] = True
+
