@@ -164,3 +164,4 @@ nnf (Neg (Dsj fs)) = Cnj (map (nnf.Neg) fs)
 lighter, heavier :: Int
 lighter = 3
 heavier = 0
+
