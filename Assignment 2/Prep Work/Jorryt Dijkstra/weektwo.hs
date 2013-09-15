@@ -122,6 +122,7 @@ cnf :: Form -> Form
 cnf (Prop l) = Prop l
 cnf (Cnj c) = Cnj (map (\x -> cnf x) c)
 cnf (Dsj d) = distlist (map cnf d) -- dist over the complete disjunction list
+cnf (f) = f
 
 distlist :: [Form] -> Form
 distlist [x] = x
