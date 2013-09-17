@@ -7,6 +7,9 @@ import Data.List
 
 ---- 3.
 
+genIntList :: IO [Int]
+genIntList = getIntsInRange 10 0 100
+
 getIntInRange :: Int -> Int -> IO Int
 getIntInRange x y = getStdRandom(randomR(x,y))
 
@@ -16,13 +19,6 @@ getIntsInRange n x y = do
 	f <- (getIntInRange x y)
 	fs <- (getIntsInRange (n-1) x y)
 	return (f:fs)
-
---justAtest :: [IO Int] -> IO ()
---justAtest [] = print ("oops")
---justAtest (x:xs) = do
---	print (show x)
---	justAtest xs
-
 
 -- 4.
 isPermutation :: Eq a => [a] -> [a] -> Bool
