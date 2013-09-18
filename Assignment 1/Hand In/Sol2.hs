@@ -64,4 +64,5 @@ parity xs = any (\x -> even (snd x) && (fst x) == True) (zip xs [1..])
 
 -- Exercise 2.53
 evenNR :: (a -> Bool) -> [a] -> Bool
+-- VVZ: correct, but a shorter notation would be "evenNR = parity . map"
 evenNR p xs = parity (map p xs)

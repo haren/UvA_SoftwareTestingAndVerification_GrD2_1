@@ -12,7 +12,10 @@ import Data.List
 import Week2
 
 cnf :: Form -> Form
+-- VVZ: not all things allowed by Form are covered. counterexample: "cnf (Neg (Neg p))"
+-- VVZ: another counterexample: "cnf (Cnj [Cnj [p,q], q])"
 cnf (Prop l) = Prop l
+-- VVZ: "(\x -> cnf x)" is the same as "cnf"
 cnf (Cnj c) = Cnj (map (\x -> cnf x) c)
 cnf (Dsj d) = distlist (map cnf d) -- dist over the complete disjunction list
 cnf (f) = f
@@ -23,6 +26,7 @@ distlist (x:xs) = dist x (distlist xs)
 
 dist :: Form -> Form -> Form
 dist (Cnj x) y = Cnj (map (\z -> dist z y) x)
+-- VVZ: "(\z -> dist x z)" is the same as "dist x"
 dist x (Cnj y) = Cnj (map (\z -> dist x z) y)
 dist x y = Dsj[x, y]
 

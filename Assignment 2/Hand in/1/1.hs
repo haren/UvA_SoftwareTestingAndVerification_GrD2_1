@@ -12,7 +12,7 @@ import Data.Array.IO
 
 data Shape = NoTriangle | Equilateral | Isosceles | Rectangular | Other deriving (Eq, Show)
 triangle :: Integer -> Integer -> Integer -> Shape
-
+-- VVZ: one way to shorten the code would be to sort a, b, c and write a check that relies on their order
 triangle a b c
 	| (a <= 0 || b <= 0 || c <= 0) || (a + b <= c || b + c <= a || a + c <= b) = NoTriangle 	-- Checking if sides are negative or equal to 0, if so then it's not a triangle and checking if sum of 2 sides is bigger than the 3rd one, if not then not a triangle
 	| a == b && b == c  = Equilateral				-- Checking if 3 sides are equal to satisfy equilaterality 
@@ -86,3 +86,5 @@ inputOther (x:xs) (y:ys) (z:zs)
 		tail = inputOther xs ys zs
 
 testTriangle = testEquilateral && testIscosceles && testPythagoras && testNoTriangle && testOther
+
+-- VVZ: impressive machinery!

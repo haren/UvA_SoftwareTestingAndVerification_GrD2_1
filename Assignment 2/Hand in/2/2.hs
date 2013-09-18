@@ -15,6 +15,7 @@ import Week2
 
 -- contradiction
 contradiction :: Form -> Bool
+-- VVZ: correct, but a shorter notation would be "contradiction = not . satisfiable"
 contradiction f = not (satisfiable f)
 
 -- tautology 
@@ -30,6 +31,7 @@ entails f1 f2 = tautology (Impl f1 f2)
 -- logical equivalence
 equiv :: Form -> Form -> Bool
 equiv f1 f2 = tautology (Equiv f1 f2)
+-- VVZ: could it also be just "entails f1 f2 && entails f2 f1"?
 
 
 -------------------------------------------------------------

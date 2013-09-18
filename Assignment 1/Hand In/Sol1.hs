@@ -73,6 +73,7 @@ blowup:: String -> String
 blowup xs = blowup2 xs 1
     where blowup2 [] _ = []
           blowup2 (x:xs) n = take n (repeat x) ++ blowup2 xs (n+1)
+-- VVZ: the take-repeat combo has a shorter notation: "replicate n x"
 
 -- 1.15
 removeFstString :: [String] -> String -> [String]
@@ -90,11 +91,19 @@ srtString (xs) =
 
 -- 1.17
 substring :: String -> String -> Bool
+-- VVZ: no need to name unneeded arguments
 substring [] ys = True
+-- VVZ: patterns are checked in the order they are written, so you know that the first argument won't be empty, no need to write it out
 substring (x:xs) [] = False
+-- VVZ: the same name in different places can be reused to mean different things
 substring xs (y:ys') | (prefix xs (y:ys')) == True = True
 		| (substring xs ys' == True) = True
 		| otherwise = False
+-- VVZ: when you check for truth, you can just leave it as it is: for all boolean p, "(p == True)" is the same as just "p"
+-- VVZ: the last function could have been just:
+substring' [] _ = True
+substring' _ [] = False
+substring' xs (y:ys) = prefix xs (y:ys) || substring xs ys
 
 prefix :: String -> String -> Bool
 prefix [] ys = True 
