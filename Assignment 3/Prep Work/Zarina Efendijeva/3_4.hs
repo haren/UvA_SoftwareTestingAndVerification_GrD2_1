@@ -9,7 +9,7 @@ isPermutation [] [] = True -- if boss lists empty / then true, since they are eq
 isPermutation [] _ = False -- 
 isPermutation _ [] = False
 isPermutation a b =
-  let equal x = (b == x)
+  let equal x = (b == x)   -- see comments below
   in null(filter equal(permutations(a))) /= True
 
 
@@ -20,4 +20,7 @@ test3 = isPermutation [3,4,2,9] [9,2,4,3]
 test4 = isPermutation [3,4,2,9] [9,2,4,9]  --False
 
 
---test3 = sort(permutations[4,2,1])
+-- The result is filtered with a filter that equals it with b. 
+-- If this list is null then b is not a permutation of a
+-- the null /= True is to get the right boolean statement for that case
+
