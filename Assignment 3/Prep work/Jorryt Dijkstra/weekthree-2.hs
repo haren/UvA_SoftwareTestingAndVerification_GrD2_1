@@ -67,3 +67,4 @@ validatecnj (Cnj x) = True
 validatecnj (Prop x) = True
 validatecnj (Neg x) = True
 validatecnj (x) = False
+
