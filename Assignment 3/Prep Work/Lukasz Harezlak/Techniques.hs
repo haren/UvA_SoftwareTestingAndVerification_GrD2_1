@@ -113,7 +113,7 @@ test :: Int -> (Form -> Bool) -> [Form] -> IO ()
 test n _ [] = print (show n ++ " tests passed")
 test n p (f:fs) = 
   if p f 
-  then do print ("pass on:" ++ show f)
+  then do print ("pass on:" ++ show f)  
           test n p fs
   else error ("failed test on:" ++ show f)
 

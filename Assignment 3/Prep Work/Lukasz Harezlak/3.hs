@@ -31,6 +31,16 @@ isPermutation a b = (elem (a) (permutations b))
 
 -- 5.
 
+testPermutations :: IO Bool
+testPermutations = do
+	randomList <- genIntList -- generate random list
+	let permutationsOfRandomList = permutations randomList -- generate its permutation	
+	let notARandomListPermutation = permutations (map (*2) randomList)
+	return (elem randomList permutationsOfRandomList 
+		&& not (elem randomList notARandomListPermutation))
+	
 -- 6.
+
+-- TRY TO FIGURE THIS OUT!
 
 -- 7.
