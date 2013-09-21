@@ -8,6 +8,9 @@ import Week2
 getRandomInt :: Int -> IO Int
 getRandomInt n = getStdRandom (randomR (0,n))
 
+getRandomIntWithRange :: Int -> Int -> IO Int
+getRandomIntWithRange a b = getStdRandom (randomR (a,b))
+
 getRandomF :: IO Form
 getRandomF = do d <- getRandomInt 4
                 getRandomForm d
@@ -20,10 +23,10 @@ getRandomForm d = do n <- getRandomInt 3
                                return (Prop (m+1))
                        1 -> do f <- getRandomForm (d-1)
                                return (Neg f)
-                       2 -> do m  <- getRandomInt 5
+                       2 -> do m  <- getRandomIntWithRange 2 5
                                fs <- getRandomForms (d-1) m
                                return (Cnj fs)
-                       3 -> do m  <- getRandomInt 5
+                       3 -> do m  <- getRandomIntWithRange 2 5
                                fs <- getRandomForms (d-1) m
                                return (Dsj fs)
 
@@ -38,13 +41,15 @@ getRandomForms d n = do
                      return (f:fs)
 
 cnf :: Form -> Form
+cnf (Neg n) = Neg (cnf n)
 cnf (Prop l) = Prop l
-cnf (Cnj c) = Cnj (map (\x -> cnf x) c)
+cnf (Cnj c) = Cnj (map cnf c)
 cnf (Dsj d) = distlist (map cnf d) -- dist over the complete disjunction list
 cnf (f) = f
 
 distlist :: [Form] -> Form
 distlist [x] = x
+distlist [x,y] = dist x y
 distlist (x:xs) = dist x (distlist xs)
 
 dist :: Form -> Form -> Form
@@ -55,7 +60,7 @@ dist x y = Dsj[x, y]
 -- Taken from the example in the slides :)
 testcnf = do
 	r <- (getRandomInt 4)
-	f <- (getRandomForms (r - 1) 100)
+	f <- (getRandomForms (r - 1) 10)
 	let b = (inputcnf f)
 	return b
 

@@ -30,13 +30,14 @@ testPermutations = inputPermutations 10000 -- amount of variations to test
 inputPermutations :: Int -> IO Bool
 inputPermutations 0 = return True
 inputPermutations x = do
-			i <- getRandomIntsWithRange 10 1 10000 -- generate a random list of 10 ints within boundaries
-			r <- getRandomInt
-			o <- inputPermutations (x-1)
-			let s = isPermutation (sort i) i -- check if the sorted random list is a permutation of the unaltered random list
-			let s' = (not) (isPermutation (drop 1 i) i)
-			let s'' = (not) (isPermutation i (r : i))
-			return (s && s' && s'' && o)
+  i <- getRandomIntsWithRange 10 1 10000 -- generate a random list of 10 ints within boundaries
+  r <- getRandomInt
+  o <- inputPermutations (x-1)
+  let s = isPermutation (sort i) i -- check if the sorted random list is a permutation of the unaltered random list
+  let s' = (not) (isPermutation (drop 1 i) i)
+  let s'' = (not) (isPermutation i (r : i))
+  let selfPermutation = isPermutation i i -- should be a permutation of itself
+  return (selfPermutation && s && s' && s'' && o) -- combine all permutation checks
 
 terms = [x, y, z]
 getRandomTerm :: IO Term
@@ -86,7 +87,7 @@ getRelations i = do
 
 getRandomAtomForm :: Char -> IO Formula
 getRandomAtomForm c = do
-                        p <- getRandomIntInRange 1 3
+                        p <- getRandomIntInRange 2 4
                         n <- getRandomIntInRange 1 2
                         -- Generate bound and unbound forms with at least 1 to 3 relations
                         case n of
@@ -106,10 +107,10 @@ getRandomForm d = do n <- getRandomIntInRange 0 5
                                return f
                        1 -> do f <- getRandomForm (d-1)
                                return (Neg f)
-                       2 -> do m <- getRandomIntInRange 0 5
+                       2 -> do m <- getRandomIntInRange 2 4
                                fs <- getRandomForms (d-1) m
                                return (Conj fs)
-                       3 -> do m  <- getRandomIntInRange 0 5
+                       3 -> do m  <- getRandomIntInRange 2 4
                                fs <- getRandomForms (d-1) m
                                return (Disj fs)
                        4 -> do c <- getRandomLowercaseLetter
@@ -129,3 +130,52 @@ getRandomForms d n = do
                      f <- getRandomForm d
                      fs <- getRandomForms d (n-1)
                      return (f:fs)
+
+------
+{--
+data Token
+      = TokenNeg
+      | TokenConj
+      | TokenDisj
+      | TokenImpl
+      | TokenEquiv
+      | TokenInt Int
+      | TokenAll Char
+      | TokenExists Char
+      | TokenOP
+      | TokenCP
+ deriving (Show,Eq)
+
+lexer :: String -> [Token]
+lexer [] = []
+lexer (c:cs) | isSpace c = lexer cs
+             | isDigit c = lexNum (c:cs)
+lexer (’(’:cs) = TokenOP : lexer cs
+lexer (’)’:cs) = TokenCP : lexer cs
+lexer (’*’:cs) = TokenConj : lexer cs
+lexer (’+’:cs) = TokenDisj : lexer cs
+lexer (’-’:cs) = TokenNeg : lexer cs
+lexer (’=’:’=’:’>’:cs) = TokenImpl : lexer cs
+lexer (’<’:’=’:’>’:cs) = TokenEquiv : lexer cs
+lexer ('A':x:xs) = TokenAll x : lexer xs
+lexer ('E':x:xs) = TokenExists x : lexer xs
+lexer (x:_) = error ("unknown token: " ++ [x])
+
+lexNum cs = TokenInt (read num) : lexer rest
+     where (num,rest) = span isDigit cs
+
+type Parser a b = [a] -> [(b,[a])]
+parseForm :: Parser Token Form
+parseForm (TokenInt x : tokens) = [(Prop x,tokens)]
+parseForm (TokenNeg : tokens) =
+  [ (Neg f, rest) | (f,rest) <- parseForm tokens ]
+parseForm (TokenConj : TokenOP : tokens) =
+  [ (Cnj fs, rest) | (fs,rest) <- parseForms tokens ]
+parseForm (TokenDisj : TokenOP : tokens) =
+  [ (Dsj fs, rest) | (fs,rest) <- parseForms tokens ]
+parseForm (TokenOP : tokens) =
+  [ (Impl f1 f2, rest) | (f1,ys) <- parseForm tokens, (f2,rest) <- parseImpl ys ]
+     ++
+    [ (Equiv f1 f2, rest) | (f1,ys) <- parseForm tokens, (f2,rest) <- parseEquiv ys ]
+parseForm tokens = []
+--}
