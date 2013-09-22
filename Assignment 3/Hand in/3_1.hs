@@ -77,7 +77,7 @@ testPermutations' = do
 		&& not (isPermutation randomList (notARandomListPermutation !! randomIndex2)))
 
 
--- Assignment 6
+-- Assignment 7
 
 terms = [x, y, z]
 

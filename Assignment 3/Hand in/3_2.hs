@@ -76,6 +76,18 @@ testcnf = do
           let valid = map (validateElement) (c) -- validate whether the structure of the output is correct
           return (and(equal) && and(valid))
 
+
+-- We have tested the cnf with random formula's. Our results are as follows: 
+-- The cnf conversion takes as input a propositional logic statement
+-- and produces an output which should be in CNF form.
+-- What we see from the real data (tests with the random forms) is
+-- that it produces a syntactically correct propositional logic statement
+-- as output, however, the output is not logicaly equivalent to the
+-- input form. We have tested cnf in the second week, with a few
+-- manual input and there, the cnf worked correctly for our limited input data.
+-- For the randomly generated forms, however, it is unfortunatley not the case.
+-- We are looking for the reason behind this defect.  
+
 processToCnf :: Form -> Form
 processToCnf = cnf . nnf . arrowfree
 
