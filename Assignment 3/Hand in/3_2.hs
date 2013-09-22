@@ -5,6 +5,19 @@ import Data.List
 import Week2
 
 
+
+-- Software verification and testing
+-- Assignment for week 3
+-- Answer to the question 6
+-- Group D2_1
+-- Cigdem Aytekin 10463135,
+-- Jorryt Jan Dijkstra 10462015,
+-- Zarina Efendijeva 10628185,
+-- Lukasz Harezlak, 10630171
+
+
+
+
 -- New file due to redefinition of Neg in Week3.hs
 -- Random implementations from the slides, used for cnf test
 getRandomInt :: Int -> IO Int

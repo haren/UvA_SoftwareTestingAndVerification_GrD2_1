@@ -4,6 +4,16 @@ import Data.List
 import System.Random
 import Week3
 
+-- Software verification and testing
+-- Assignment for Week 3
+-- Answers to the questions 3, 4, 5 and 7
+-- Group D2_1
+-- Cigdem Aytekin 10463135,
+-- Jorryt Jan Dijkstra 10462015,
+-- Zarina Efendijeva 10628185,
+-- Lukasz Harezlak, 10630171
+
+
 
 -- Assignment 3
 getRandomInt :: IO Int
