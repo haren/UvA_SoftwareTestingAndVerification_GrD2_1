@@ -36,7 +36,7 @@ isPermutation' a b = (elem (a) (permutations b))
 -- tests
 testPermutations = inputPermutations 10000 -- amount of variations to test
 inputPermutations :: Int -> IO Bool
-inputPermutations 0 = return testPermutations2 -- combining a recursive and a non-recursive test together
+inputPermutations 0 = return testPermutations' -- combining a recursive and a non-recursive test together
 inputPermutations x = do
   i <- getRandomIntsInRange 10 1 10000 -- generate a random list of 10 ints within boundaries
   r <- getRandomInt
@@ -47,11 +47,14 @@ inputPermutations x = do
   let selfPermutation = isPermutation i i -- should be a permutation of itself
   return (selfPermutation && s && s' && s'' && o) -- combine all permutation checks
 
-testPermutations2 :: IO Bool
-testPermutations2 = do
-  randomList <- genIntList -- generate random list
-  let permutationsOfRandomList = permutations randomList -- generate its permutation  
-  let notARandomListPermutation = permutations (map (*2) randomList)
-  return (elem randomList permutationsOfRandomList 
-    && not (elem randomList notARandomListPermutation))
+-- really slow - generates all permutations
+testPermutations' :: IO Bool
+testPermutations' = do
+	randomList <- genIntList -- generate random list
+	let permutationsOfRandomList = permutations randomList -- generate its permutation	
+	let notARandomListPermutation = permutations (map (*2) randomList)	
+	randomIndex <- getStdRandom(randomR(0, length permutationsOfRandomList))
+	randomIndex2 <- getStdRandom(randomR(0, length notARandomListPermutation))
+	return (isPermutation randomList (permutationsOfRandomList !! randomIndex) 
+		&& not (isPermutation randomList (notARandomListPermutation !! randomIndex2)))
   
