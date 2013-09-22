@@ -36,9 +36,11 @@ testPermutations :: IO Bool
 testPermutations = do
 	randomList <- genIntList -- generate random list
 	let permutationsOfRandomList = permutations randomList -- generate its permutation	
-	let notARandomListPermutation = permutations (map (*2) randomList)
-	return (elem randomList permutationsOfRandomList 
-		&& not (elem randomList notARandomListPermutation))
+	let notARandomListPermutation = permutations (map (*2) randomList)	
+	randomIndex <- getStdRandom(randomR(0, length permutationsOfRandomList))
+	randomIndex2 <- getStdRandom(randomR(0, length notARandomListPermutation))
+	return (isPermutation randomList (permutationsOfRandomList !! randomIndex) 
+		&& not (isPermutation randomList (notARandomListPermutation !! randomIndex2)))
 
 -- 6.
 
