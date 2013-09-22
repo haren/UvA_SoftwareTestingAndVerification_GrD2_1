@@ -41,8 +41,8 @@ getRandomForms d n = do
                      return (f:fs)
 
 cnf :: Form -> Form
-cnf (Neg n) = Neg (cnf n)
 cnf (Prop l) = Prop l
+cnf (Neg n) = Neg $ cnf n
 cnf (Cnj c) = Cnj (map cnf c)
 cnf (Dsj d) = distlist (map cnf d) -- dist over the complete disjunction list
 cnf (f) = f
@@ -57,19 +57,29 @@ dist (Cnj x) y = Cnj (map (\z -> dist z y) x)
 dist x (Cnj y) = Cnj (map (\z -> dist x z) y)
 dist x y = Dsj[x, y]
 
--- Taken from the example in the slides :)
+-- tautology 
+tautology :: Form -> Bool
+tautology f = all (\ v -> eval v f) (allVals f)
+
+-- logical equivalence
+equiv :: Form -> Form -> Bool
+equiv f1 f2 = tautology (Equiv f1 f2)
+
 testcnf = do
-	r <- (getRandomInt 4)
-	f <- (getRandomForms (r - 1) 10)
-	let b = (inputcnf f)
-	return b
+          r <- getRandomFs 10 -- test 10 random formula's
+          let c = map processToCnf r
+          let equal = map (\x -> equiv (fst x) (snd x)) ([(x,y) | x <- r, y <- c]) -- test whether the equivalence of both formula's (cnf'ed and random forms are the same)
+          -- putStrLn ("equal: " ++ show equal ++ " of " ++ show ([(x,y) | x <- r, y <- c])) 
+          let valid = map (validateElement) (c) -- validate whether the structure of the output is correct
+          return (and(equal) && and(valid))
 
-inputcnf :: [Form] -> Bool
-inputcnf (x:xs) = (validatecnj (cnf (nnf (arrowfree (x))))) && inputcnf xs
-inputcnf [] = True
+processToCnf :: Form -> Form
+processToCnf = cnf . nnf . arrowfree
 
-validatecnj (Cnj x) = True
-validatecnj (Prop x) = True
-validatecnj (Neg x) = True
-validatecnj (x) = False
+validateElement :: Form -> Bool
+validateElement (Cnj x) = length x > 1 -- conjunction should be over more than one formula's
+validateElement (Prop x) = True
+validateElement (Neg x) = True
+validateElement (Dsj x) = length x == 2 -- An outer disjunction should have two elements max
+validateElement (x) = False
 
