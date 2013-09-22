@@ -1,4 +1,5 @@
 import Week3
+import Week2
 import Techniques
 
 import System.Random
@@ -38,9 +39,25 @@ testPermutations = do
 	let notARandomListPermutation = permutations (map (*2) randomList)
 	return (elem randomList permutationsOfRandomList 
 		&& not (elem randomList notARandomListPermutation))
-	
+
 -- 6.
 
--- TRY TO FIGURE THIS OUT!
+cnf :: Form -> Form
+cnf (Cnj x) = Cnj (map cnf x)
+cnf (Dsj x) = distAux (map cnf x)
+cnf x = x
 
--- 7.
+distAux :: [Form] -> Form
+distAux [] = error "empty list"
+distAux [f] = f
+distAux (f:fs) = (dist f (distAux fs))
+
+dist :: Form -> Form -> Form
+dist p (Cnj fs) = Cnj (map (\x -> dist p x) fs)
+dist (Cnj fs) q = Cnj (map (\x -> dist x q) fs) 
+dist p q = Dsj [p, q]
+
+printCnf :: IO Form
+printCnf = do
+	cnf <- getRandomF
+	return cnf
