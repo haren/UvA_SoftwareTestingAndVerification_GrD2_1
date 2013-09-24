@@ -178,11 +178,57 @@ infixr 5 @@
 (@@) :: Eq a => Rel a -> Rel a -> Rel a
 r @@ s = nub [ (x,z) | (x,y) <- r, (w,z) <- s, y == w ]
 
--- isTransitive :: Rel a -> Bool
---isTransitive (xs) = 
+-- Any relations less than 3 is per definition transitive
+isTransitive :: Eq a => Rel a -> Bool
+isTransitive xs
+    | (null xs || length xs < 3) = True -- per definition True (not necessary due to the list comprehension returning an empty list, but for readability this is added)
+    | otherwise =  mod (length xs) 3 == 0 && null ([x | (x,y) <- xs, (w,z) <- xs, y == w && not (elem (x,z) xs)]) -- create a list of elements that are not living up the transitive standard
 
-{-- trClos :: Ord a => Rel a -> Rel a
-trClos (xs) = trClos' xs (xs !! 1)
-    where trClos' (x:xs) (y:ys) = (x @@ y) : trClos' xs ys
-          trClos' [] _ = []
-          trClos' _ [] = [] --}
+trClos :: Ord a => Rel a -> Rel a
+trClos (xs) = trClos' xs xs
+              where
+                trClos' xs ys
+                    | (isTransitive ys) = sort $ nub ys
+                    | otherwise = trClos' xs (ys ++ (xs @@ ys))
+
+testTransitiveClosure :: IO Bool
+testTransitiveClosure = do
+    let staticTest = (trClos [(1,2),(2,3),(3,4)] == [(1,2),(1,3),(1,4),(2,3),(2,4),(3,4)])
+    
+    dynamicTest <- testTransitiveClosure'
+    return (dynamicTest && staticTest)
+        where
+            testTransitiveClosure' :: IO Bool
+            testTransitiveClosure' = do
+                -- Create an easy closure that does not require relation composition
+                n <- getRandomIntInRange 1 100
+                let noStepX = n
+                    noStepY = n+1
+                    noStepZ = n+2
+                    noStepClosure = sort [(noStepX,noStepY),(noStepY,noStepZ),(noStepX,noStepZ)]
+
+                -- These should be transitive closures by definition, due to the length not being met
+                let closureByDefinitions = ([(noStepX,noStepZ),(noStepX, noStepY)], [(noStepX, noStepZ)])
+                    definitionCheck = (trClos (fst closureByDefinitions) == (sort $ fst closureByDefinitions)) && (trClos (snd closureByDefinitions) == (sort $ snd closureByDefinitions))
+                    transitiveClosure = sort (trClos noStepClosure)
+                    
+                relations <- generateRandomRelations 100
+                let transitiveClosureOfRelations = trClos relations
+                    intersectionOfRelationsWithTransitiveClosure = (intersect relations transitiveClosureOfRelations) == relations
+                
+
+                return (transitiveClosure == noStepClosure && definitionCheck && intersectionOfRelationsWithTransitiveClosure)
+
+generateRandomRelations :: Int -> IO [(Int,Int)]
+generateRandomRelations 0 = do return []
+generateRandomRelations n = do
+                    -- Generate random integers with random intervals
+                x <- getRandomIntInRange 1 1000000
+                y <- getRandomIntInRange 1 1000000
+                let randomStepX = x
+                    randomStepY = x + y
+                
+                randomTail <- generateRandomRelations (n-1)
+                    
+                return ((randomStepX, randomStepY) : randomTail)
+            
