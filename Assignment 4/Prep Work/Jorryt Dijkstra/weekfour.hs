@@ -28,7 +28,7 @@ getRandomIntsInRange n x y = do
 generateRandomSet :: Int -> Int -> Int -> IO (Set Int)
 generateRandomSet n x y
     | (x > y) = error "the upper boundary should be higher than the lower boundary"
-    | (y < x) = error "the lower boundary should be lower than the upper boundary"
+    | (y > x) = error "the lower boundary should be lower than the upper boundary"
     | (x == y) = error "no boundary given"
     | (y + x < n) = error "boundary is smaller than the amount of elements to generate for the set"
     | otherwise = do
@@ -156,7 +156,7 @@ testIntersection = do
             let setBUpperBoundary = setBLowerBoundary + setBUpperBoundaryAddition
             let setB = list2set [setBLowerBoundary..setBUpperBoundary]
             let intersection = intersectionSet setA setB
-                        
+
             let correctIntersection = ((getSetLength intersection) == amountToOverlap + 1) -- +1 due to including the boundary itself
             -- putStrLn("Intersection between A and B: " ++ show (getSetLength intersection) ++ " amount to overlap: " ++ show amountToOverlap)
             
@@ -177,10 +177,12 @@ infixr 5 @@
 
 (@@) :: Eq a => Rel a -> Rel a -> Rel a
 r @@ s = nub [ (x,z) | (x,y) <- r, (w,z) <- s, y == w ]
-{--
-trClos :: Ord a => Rel a -> Rel a
+
+-- isTransitive :: Rel a -> Bool
+--isTransitive (xs) = 
+
+{-- trClos :: Ord a => Rel a -> Rel a
 trClos (xs) = trClos' xs (xs !! 1)
     where trClos' (x:xs) (y:ys) = (x @@ y) : trClos' xs ys
           trClos' [] _ = []
-          trClos' _ [] = []
-       --}
+          trClos' _ [] = [] --}
