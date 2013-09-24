@@ -61,7 +61,9 @@ differenceSet :: (Ord a) => Set a -> Set a -> Set a
 differenceSet (Set(xs)) (Set(ys)) = list2set $ (deleteFirstsBy (==) xs ys)
 
 testUnion :: IO Bool
-testUnion = (testUnion' 100) -- Run the same test an X amount of times
+testUnion = do
+    result <- (testUnion' 100)
+    return (result && testUnionStatic) -- Run the same test an X amount of times
     where
         testUnion' :: Int -> IO Bool
         testUnion' 0 = return True
@@ -95,7 +97,10 @@ testUnion = (testUnion' 100) -- Run the same test an X amount of times
                   unifiedNumbersCheck = subSet numbersSet unifiedNumbersSet && subSet numbersSet' unifiedNumbersSet && ((getSetLength unifiedNumbersSet) == 200)
 
 testDifference :: IO Bool
-testDifference = testDifference' 100  -- Run the same test an X amount of times
+testDifference = do
+    result <- testDifference' 100  -- Run the same test an X amount of times
+    -- Also do static testing in combination with the empty set
+    return (result && (differenceSet emptySet numberSet) == emptySet && (differenceSet numberSet emptySet == numberSet))
     where
         testDifference' :: Int -> IO Bool
         testDifference' 0 = return True
@@ -127,5 +132,55 @@ testDifference = testDifference' 100  -- Run the same test an X amount of times
 
             correctTail <- testDifference' (n-1)
             return (correctDifferenceOfAB && correctDifferenceOfCD && correctTail)
+        numberSet = list2set [1..100]
 
+testIntersection :: IO Bool
+testIntersection = do
+    result <- testIntersection' 100 -- Run the same test an X amount of times
+    -- Also test intersection with an empty set
+    return ((intersectionSet (list2set [1..100]) emptySet == emptySet) && (intersectionSet emptySet (list2set [1..100]) == emptySet) && result)
+    where
+        testIntersection' :: Int -> IO Bool
+        testIntersection' 0 = return True
+        testIntersection' n = do
+            -- Generate a random amount of x's and y's in different ranges
+            setALowerBoundary <- getRandomIntInRange 1 10000
+            setAUpperBoundaryAddition <- getRandomIntInRange 100 10000
+            let setAUpperBoundary = setALowerBoundary + setAUpperBoundaryAddition
+            let setA = list2set [setALowerBoundary..setAUpperBoundary]
+            
+            amountToOverlap <- getRandomIntInRange 10 99
+            
+            let setBLowerBoundary = setAUpperBoundary - amountToOverlap
+            setBUpperBoundaryAddition <- getRandomIntInRange 100 10000
+            let setBUpperBoundary = setBLowerBoundary + setBUpperBoundaryAddition
+            let setB = list2set [setBLowerBoundary..setBUpperBoundary]
+            let intersection = intersectionSet setA setB
+                        
+            let correctIntersection = ((getSetLength intersection) == amountToOverlap + 1) -- +1 due to including the boundary itself
+            -- putStrLn("Intersection between A and B: " ++ show (getSetLength intersection) ++ " amount to overlap: " ++ show amountToOverlap)
+            
+            correctTail <- testIntersection' (n-1)
+            return (correctIntersection && correctTail)
 
+testSetMethods :: IO Bool
+testSetMethods = do
+    intersectionResult <- testIntersection
+    differenceResult <- testDifference
+    unionResult <- testUnion
+    return (intersectionResult && differenceResult && unionResult)
+
+-- Assignment 4
+type Rel a = [(a,a)]
+
+infixr 5 @@
+
+(@@) :: Eq a => Rel a -> Rel a -> Rel a
+r @@ s = nub [ (x,z) | (x,y) <- r, (w,z) <- s, y == w ]
+{--
+trClos :: Ord a => Rel a -> Rel a
+trClos (xs) = trClos' xs (xs !! 1)
+    where trClos' (x:xs) (y:ys) = (x @@ y) : trClos' xs ys
+          trClos' [] _ = []
+          trClos' _ [] = []
+       --}
