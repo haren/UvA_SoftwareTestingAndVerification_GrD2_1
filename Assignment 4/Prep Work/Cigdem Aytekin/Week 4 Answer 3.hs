@@ -9,11 +9,6 @@ import SetOrd
 -- Cigdem Aytekin
 -- Week 4, assignment 3
 
--- unionSet :: (Ord a) => Set a -> Set a -> Set a 
--- unionSet (Set [])     set2  =  set2
--- unionSet (Set (x:xs)) set2  = 
---   insertSet x (unionSet (Set xs) set2)
-
 
 intersectionSet :: (Ord a) => Set a -> Set a -> Set a
 intersectionSet (Set []) set2 = (Set [])

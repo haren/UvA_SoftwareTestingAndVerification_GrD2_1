@@ -17,13 +17,6 @@ getRandomInt = getStdRandom(random)
 getRandomIntInRange :: Int -> Int -> IO Int
 getRandomIntInRange x y = getStdRandom(randomR(x,y))
 
-getRandomInts :: Int -> IO [Int]
-getRandomInts 0 = return []
-getRandomInts n = do
-    f <- getRandomInt
-    fs <- getRandomInts (n-1)
-    return (f : fs)
-
 getRandomIntsInRange :: Int -> Int -> Int -> IO [Int]
 getRandomIntsInRange 0 _ _ = return []
 getRandomIntsInRange n x y = do
@@ -33,17 +26,15 @@ getRandomIntsInRange n x y = do
     
     
     
-insertIOSet :: (Ord Int) => Int -> Set Int -> Set Int 
-insertIOSet x (Set s) = Set (insertList x s) 
-
-insertList x [] = [x]
-insertList x ys@(y:ys') = case compare x y of 
-                                 GT -> y : insertList x ys' 
-                                 EQ -> ys 
-                                 _  -> x : ys 
-
-    
-    
+getARandomSet :: Int -> Int -> Int -> IO (Set Int)
+getARandomSet n lowBound upBound 
+                        | (lowBound >= upBound) = error "Upper boundary should be greater than lower boundary"
+                        | (n <= 0)              = error "Number of set elements should be greater than 0"
+                        | otherwise             = do                 
+                                                    randIntList <- getRandomIntsInRange n lowBound upBound
+                                                    let auxSet = list2set (nub randIntList)
+                                                    return auxSet 
+                                    
     
     
     
