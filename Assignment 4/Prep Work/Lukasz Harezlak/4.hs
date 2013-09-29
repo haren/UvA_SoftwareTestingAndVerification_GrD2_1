@@ -3,6 +3,18 @@ import SetOrd
 import System.Random
 import Data.List
 
+import Control.Applicative ( (<$>) )
+import Control.Exception   ( assert )
+import Control.Monad       ( forM_, when )
+import Data.Array.IArray
+import Data.Array.MArray
+import Data.Array.ST
+import Data.Maybe          ( fromMaybe )
+ 
+infty :: Int
+infty = 10^6
+ 
+
 -- 4.1
 
 
@@ -92,20 +104,14 @@ infixr 5 @@
 r @@ s =
 	nub [ (x,z) | (x,y) <- r, (w,z) <- s, y == w ]
 
--- transitive closure of a relation
---trClos :: Ord a => Rel a -> Rel a
---trClos [] = []
---trClos (xs) = getElements xs
-
--- return a list of all elements
--- build tuples from this list
-
-
---getElements :: Ord a => Rel a -> [Int]
---getElements [] = []
---getElements (x:xs) = (fst x) ++ (snd x) ++ (getElements xs)
+trClos :: Ord a => Rel a -> Rel a
+trClos xs 
+  | xs == xs_ = xs
+  | otherwise = trClos xs_
+  where xs_ = nub (sort (xs ++ (xs @@ xs)))
 
 testRel = [(1,2), (1,3)]
 testRel2 = [(2,4), (3,7)]
 
 -- 4.5
+
