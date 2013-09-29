@@ -132,7 +132,7 @@ testDifference = do
                 setB = list2set [setBLowerBoundary..setBUpperBoundary]
                 difference = differenceSet setA setB
             -- The length of the difference set should be equal to that of setA excluding the overlapping with setB, the minus one is added due to exclusion of the upper boundary            
-                correctDifferenceOfAB = ((getSetLength difference == (getSetLength setA) - amountToOverlap - 1) && (subSet difference setA))
+                correctDifferenceOfAB = ((getSetLength difference == (getSetLength setA) - amountToOverlap - 1) && (subSet difference setA) && ((not)subSet difference setB))
             
             -- Check for difference without overlapping elements
             setCUpperBoundary <- getRandomIntInRange 1 10000
@@ -170,11 +170,18 @@ testIntersection = do
                 setB = list2set [setBLowerBoundary..setBUpperBoundary]
                 intersection = intersectionSet setA setB
 
-            let correctIntersection = ((getSetLength intersection) == amountToOverlap + 1) -- +1 due to including the boundary itself
-            -- putStrLn("Intersection between A and B: " ++ show (getSetLength intersection) ++ " amount to overlap: " ++ show amountToOverlap)
-            
+            -- Check for length to be the same and check for the intersection to be a subset of setA as well as B
+            let correctIntersection = ((getSetLength intersection) == amountToOverlap + 1) && ((subSet intersection setB) && (subSet intersection setA)) -- +1 due to including the boundary itself
+                
+                
+            -- Check for no overlap between setA and setC
+            let setCLowerBoundary = setAUpperBoundary + amountToOverlap + 1000 -- This wont overlap :)
+                setCUpperBoundary = setCLowerBoundary + setAUpperBoundaryAddition -- Use a random addition
+                setC = list2set [setCLowerBoundary..setCUpperBoundary]
+                intersection2 = intersectionSet setA setC
+
             correctTail <- testIntersection' (n-1)
-            return (correctIntersection && correctTail)
+            return (correctIntersection && correctTail && (intersection2 == emptySet))
 
 testSetMethods :: IO Bool
 testSetMethods = do
