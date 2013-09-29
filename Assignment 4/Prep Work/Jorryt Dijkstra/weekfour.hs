@@ -41,7 +41,7 @@ getRandomIntsInRange n x y = do
 generateRandomSet :: Int -> Int -> Int -> IO (Set Int)
 generateRandomSet n x y
     | (x > y) = error "the upper boundary should be higher than the lower boundary"
-    | (y > x) = error "the lower boundary should be lower than the upper boundary"
+    | (y < x) = error "the lower boundary should be lower than the upper boundary"
     | (x == y) = error "no boundary given"
     | (y + x < n) = error "boundary is smaller than the amount of elements to generate for the set"
     | otherwise = do
@@ -90,10 +90,10 @@ testUnion = do
             
             -- Test to make sure numbers overlap in the union implementation
             let x' = list2set [1..100]
-            let y' = list2set [50..150]
-            let u' = unionSet x' y'
-            let validateOverlap = getSetLength u' == 150
-            let validateSubsets = subSet x' u' && subSet y' u'
+                y' = list2set [50..150]
+                u' = unionSet x' y'
+                validateOverlap = getSetLength u' == 150
+                validateSubsets = subSet x' u' && subSet y' u'
             
             recursiveResult <- testUnion' (n - 1)
             
@@ -122,26 +122,26 @@ testDifference = do
             setALowerBoundary <- getRandomIntInRange 1 10000
             setAUpperBoundaryAddition <- getRandomIntInRange 100 10000
             let setAUpperBoundary = setALowerBoundary + setAUpperBoundaryAddition
-            let setA = list2set [setALowerBoundary..setAUpperBoundary]
+                setA = list2set [setALowerBoundary..setAUpperBoundary]
             
             amountToOverlap <- getRandomIntInRange 1 99
             
             let setBLowerBoundary = setAUpperBoundary - amountToOverlap
             setBUpperBoundaryAddition <- getRandomIntInRange 100 10000
             let setBUpperBoundary = setBLowerBoundary + setBUpperBoundaryAddition
-            let setB = list2set [setBLowerBoundary..setBUpperBoundary]
-            let difference = differenceSet setA setB
+                setB = list2set [setBLowerBoundary..setBUpperBoundary]
+                difference = differenceSet setA setB
             -- The length of the difference set should be equal to that of setA excluding the overlapping with setB, the minus one is added due to exclusion of the upper boundary            
-            let correctDifferenceOfAB = ((getSetLength difference == (getSetLength setA) - amountToOverlap - 1) && (subSet difference setA))
+                correctDifferenceOfAB = ((getSetLength difference == (getSetLength setA) - amountToOverlap - 1) && (subSet difference setA))
             
             -- Check for difference without overlapping elements
             setCUpperBoundary <- getRandomIntInRange 1 10000
             let setC = list2set [1..setCUpperBoundary]
-            let setDLowerBoundary = (setCUpperBoundary+1)
+                setDLowerBoundary = (setCUpperBoundary+1)
             setDUpperBoundaryAddition <- getRandomIntInRange 1 10000
             let setD = list2set [setDLowerBoundary..(setDLowerBoundary + setDUpperBoundaryAddition)]
-            let differenceSetCD = differenceSet setC setD
-            let correctDifferenceOfCD = (getSetLength differenceSetCD == getSetLength setC) && (subSet differenceSetCD setC)
+                differenceSetCD = differenceSet setC setD
+                correctDifferenceOfCD = (getSetLength differenceSetCD == getSetLength setC) && (subSet differenceSetCD setC)
 
             correctTail <- testDifference' (n-1)
             return (correctDifferenceOfAB && correctDifferenceOfCD && correctTail)
@@ -160,15 +160,15 @@ testIntersection = do
             setALowerBoundary <- getRandomIntInRange 1 10000
             setAUpperBoundaryAddition <- getRandomIntInRange 100 10000
             let setAUpperBoundary = setALowerBoundary + setAUpperBoundaryAddition
-            let setA = list2set [setALowerBoundary..setAUpperBoundary]
+                setA = list2set [setALowerBoundary..setAUpperBoundary]
             
             amountToOverlap <- getRandomIntInRange 10 99
             
             let setBLowerBoundary = setAUpperBoundary - amountToOverlap
             setBUpperBoundaryAddition <- getRandomIntInRange 100 10000
             let setBUpperBoundary = setBLowerBoundary + setBUpperBoundaryAddition
-            let setB = list2set [setBLowerBoundary..setBUpperBoundary]
-            let intersection = intersectionSet setA setB
+                setB = list2set [setBLowerBoundary..setBUpperBoundary]
+                intersection = intersectionSet setA setB
 
             let correctIntersection = ((getSetLength intersection) == amountToOverlap + 1) -- +1 due to including the boundary itself
             -- putStrLn("Intersection between A and B: " ++ show (getSetLength intersection) ++ " amount to overlap: " ++ show amountToOverlap)
