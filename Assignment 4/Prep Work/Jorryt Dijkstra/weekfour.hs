@@ -4,6 +4,19 @@ import SetOrd
 import System.Random
 import Data.List
 
+{--
+
+What does delta R mean? It is identity right? Whats the difference between identity and if and only if
+    
+Page 176. Where do 0,0 and 2,2 come from in the example of 'r2'? Is this eactually relational composition?
+Exercise 5.38 till 5.41 and 5.71, i'd like to see the answers for this, to make sure I understand
+
+I dont understand 5.66 and 5.67, maybe this is due to the mathematical approach
+
+Example 5.80 what does 2 actually have to do with this?
+
+--}
+
 getRandomInt :: IO Int
 getRandomInt = getStdRandom(random)
 
@@ -184,22 +197,30 @@ isTransitive xs
     | (null xs || length xs < 3) = True -- per definition True (not necessary due to the list comprehension returning an empty list, but for readability this is added)
     | otherwise =  mod (length xs) 3 == 0 && null ([x | (x,y) <- xs, (w,z) <- xs, y == w && not (elem (x,z) xs)]) -- create a list of elements that are not living up the transitive standard
 
-trClos :: Ord a => Rel a -> Rel a
+{--trClos :: Ord a => Rel a -> Rel a
 trClos (xs) = trClos' xs xs
               where
                 trClos' xs ys
                     | (isTransitive ys) = sort $ nub ys
                     | otherwise = trClos' xs (ys ++ (xs @@ ys))
+--}
+
+-- Lukasz version
+trClos xs 
+  | xs == xs_ = xs
+  | otherwise = trClos xs_
+  where xs_ = nub (sort (xs ++ (xs @@ xs)))
 
 testTransitiveClosure :: IO Bool
 testTransitiveClosure = do
     let staticTest = (trClos [(1,2),(2,3),(3,4)] == [(1,2),(1,3),(1,4),(2,3),(2,4),(3,4)])
     
-    dynamicTest <- testTransitiveClosure'
+    dynamicTest <- testTransitiveClosure' 1000
     return (dynamicTest && staticTest)
         where
-            testTransitiveClosure' :: IO Bool
-            testTransitiveClosure' = do
+            testTransitiveClosure' :: Int -> IO Bool
+            testTransitiveClosure' 0 = return True
+            testTransitiveClosure' amount = do
                 -- Create an easy closure that does not require relation composition
                 n <- getRandomIntInRange 1 100
                 let noStepX = n
@@ -212,12 +233,16 @@ testTransitiveClosure = do
                     definitionCheck = (trClos (fst closureByDefinitions) == (sort $ fst closureByDefinitions)) && (trClos (snd closureByDefinitions) == (sort $ snd closureByDefinitions))
                     transitiveClosure = sort (trClos noStepClosure)
                     
+                -- Any set of random relations should have a transitive closure which should intersect with the original relations
                 relations <- generateRandomRelations 100
                 let transitiveClosureOfRelations = trClos relations
                     intersectionOfRelationsWithTransitiveClosure = (intersect relations transitiveClosureOfRelations) == relations
                 
+                -- Recursion
+                correctTail <- testTransitiveClosure' (amount-1)
 
-                return (transitiveClosure == noStepClosure && definitionCheck && intersectionOfRelationsWithTransitiveClosure)
+
+                return (transitiveClosure == noStepClosure && definitionCheck && intersectionOfRelationsWithTransitiveClosure && correctTail)
 
 generateRandomRelations :: Int -> IO [(Int,Int)]
 generateRandomRelations 0 = do return []
