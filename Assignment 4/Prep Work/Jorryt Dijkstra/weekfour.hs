@@ -195,22 +195,22 @@ r @@ s = nub [ (x,z) | (x,y) <- r, (w,z) <- s, y == w ]
 isTransitive :: Eq a => Rel a -> Bool
 isTransitive xs
     | (null xs || length xs < 3) = True -- per definition True (not necessary due to the list comprehension returning an empty list, but for readability this is added)
-    | otherwise =  mod (length xs) 3 == 0 && null ([x | (x,y) <- xs, (w,z) <- xs, y == w && not (elem (x,z) xs)]) -- create a list of elements that are not living up the transitive standard
+    | otherwise = null ([x | (x,y) <- xs, (w,z) <- xs, y == w && not (elem (x,z) xs)]) -- create a list of elements that are not living up the transitive standard
 
-{--trClos :: Ord a => Rel a -> Rel a
+trClos :: Ord a => Rel a -> Rel a
+trClos [] = []
 trClos (xs) = trClos' xs xs
               where
                 trClos' xs ys
                     | (isTransitive ys) = sort $ nub ys
                     | otherwise = trClos' xs (ys ++ (xs @@ ys))
---}
 
 -- Lukasz version
-trClos xs 
+{-- trClos xs 
   | xs == xs_ = xs
   | otherwise = trClos xs_
   where xs_ = nub (sort (xs ++ (xs @@ xs)))
-
+--}
 testTransitiveClosure :: IO Bool
 testTransitiveClosure = do
     let staticTest = (trClos [(1,2),(2,3),(3,4)] == [(1,2),(1,3),(1,4),(2,3),(2,4),(3,4)])
