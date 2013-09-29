@@ -205,12 +205,6 @@ trClos (xs) = trClos' xs xs
                     | (isTransitive ys) = sort $ nub ys
                     | otherwise = trClos' xs (ys ++ (xs @@ ys))
 
--- Lukasz version
-{-- trClos xs 
-  | xs == xs_ = xs
-  | otherwise = trClos xs_
-  where xs_ = nub (sort (xs ++ (xs @@ xs)))
---}
 testTransitiveClosure :: IO Bool
 testTransitiveClosure = do
     let staticTest = (trClos [(1,2),(2,3),(3,4)] == [(1,2),(1,3),(1,4),(2,3),(2,4),(3,4)])
