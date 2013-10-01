@@ -109,9 +109,15 @@ genProblem n = do ys <- randomize xs
 --genSudoku :: IO()
 genSudoku = do 
   [r] <- rsolveNs [emptyN]
-  showNode r
+  -- showNode r
   s <- genProblem r
-  showNode s
-  solveShowNs [s]
-
-             
+  -- showNode s
+  return (s, solveNs [s])
+  
+printRandomSudoku :: IO[()]
+printRandomSudoku = do
+  s <- genSudoku
+  putStrLn "Random sudoku: ";
+  showNode (fst s)
+  putStrLn "Solved: ";
+  sequence $ fmap showNode (snd s)

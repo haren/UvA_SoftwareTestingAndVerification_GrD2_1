@@ -34,8 +34,9 @@ splitMergeA :: Ord a => [a] -> [a]
 splitMergeA = assert1 unsorted $ assert1 subl $ assert1 len splitMerge
 
 
-{--
- = [ [0,0,0, 3,0,0,  0,0,0],
+
+exampleNrcBroken :: Grid
+exampleNrcBroken = [ [0,0,0, 3,0,0,  0,0,0],
                 [0,0,0, 7,0,0,  3,0,0],
                 [2,0,0, 0,0,0,  0,0,8],
                 
@@ -47,10 +48,14 @@ splitMergeA = assert1 unsorted $ assert1 subl $ assert1 len splitMerge
                 [0,8,0, 0,4,0,  0,0,0],
                 [0,0,2, 0,0,0,  0,0,0]]
 
---}
+validateComplete :: [[Int]] -> Bool
+validateComplete = not . validateIncomplete
+
+validateIncomplete :: [[Int]] -> Bool
+validateIncomplete = or . map (elem 0)
 
 validateNumberPattern :: [Int] -> Bool
-validateNumberPattern (rs) = length rs == 9 && null (filter (/= 0) (deleteFirstsBy (==) [1..9] rs))
+validateNumberPattern (rs) = let rs' = filter (/= 0) rs in length rs == 9 && null (deleteFirstsBy (==) rs' [1..9])
 
 validateMatrix :: [[Int]] -> Bool
 validateMatrix xs = validateRow xs && validateRow (transpose xs)
@@ -75,9 +80,25 @@ getSubGrids xs = (getSubGrids (drop 3 (xs))) ++ getRow xs
           getBlock xs' = [concat (take 3 $ map (take 3) xs')]
           secondCol = map (drop 3) xs
           thirdCol = map (drop 6) xs
-          
+
 getAllSubGrids :: [[Int]] -> [[Int]]
 getAllSubGrids xs = getNRCSubGrids xs ++ getSubGrids xs
 
 validateConsistency :: [[Int]] -> Bool
 validateConsistency xs = validateRow (getAllSubGrids xs) && validateMatrix xs
+
+thd (_, _, x) = x
+
+testSudoku :: IO Bool
+testSudoku = do
+    testSudoku' 5
+    where
+        testSudoku' 0 = return True
+        testSudoku' n = do
+            r <- genSudoku
+            let incompleteSudoku = sud2grid (fst (fst r))
+                solvedSudoku = snd r
+            testTail <- testSudoku' (n-1)
+            return (validateConsistency incompleteSudoku && testTail)
+            --  && validateConsistency solvedSudoku && validateIncomplete incompleteSudoku && validateComplete solvedSudoku && validateNumberPattern solvedSudoku && testTail
+     
