@@ -2,6 +2,7 @@ module Lab5
 where
 import Data.List
 import Week5
+import RandomSudoku
 
 mergeSrt :: Ord a => [a] -> [a]
 mergeSrt [] = []
@@ -32,3 +33,51 @@ splitMerge xs = let s = (split xs) in (merge (sort (fst s)) (sort (snd s)))
 splitMergeA :: Ord a => [a] -> [a]
 splitMergeA = assert1 unsorted $ assert1 subl $ assert1 len splitMerge
 
+
+{--
+ = [ [0,0,0, 3,0,0,  0,0,0],
+                [0,0,0, 7,0,0,  3,0,0],
+                [2,0,0, 0,0,0,  0,0,8],
+                
+                [0,0,6, 0,0,5,  0,0,0],
+                [0,9,1, 6,0,0,  0,0,0],
+                [3,0,0, 0,7,1,  2,0,0],
+                
+                [0,0,0, 0,0,0,  0,3,1],
+                [0,8,0, 0,4,0,  0,0,0],
+                [0,0,2, 0,0,0,  0,0,0]]
+
+--}
+
+validateNumberPattern :: [Int] -> Bool
+validateNumberPattern (rs) = length rs == 9 && null (filter (/= 0) (deleteFirstsBy (==) [1..9] rs))
+
+validateMatrix :: [[Int]] -> Bool
+validateMatrix xs = validateRow xs && validateRow (transpose xs)
+
+validateRow :: [[Int]] -> Bool
+validateRow [] = True
+validateRow (m:ms) = validateNumberPattern m && validateRow ms
+
+getNRCSubGrids :: [[Int]] -> [[Int]]
+getNRCSubGrids xs = getNRCSubGrids' xs ++ getNRCSubGrids' reversedMatrix
+    where
+        reversedMatrix = reverse xs
+        getNRCSubGrids' xs = [getNRCTopSubGrid xs] ++ [getNRCTopSubGrid (map (reverse) xs)]
+
+getNRCTopSubGrid :: [[Int]] -> [Int]
+getNRCTopSubGrid = concat . take 3 . tail . map (take 3) . map (tail)
+
+getSubGrids :: [[Int]] -> [[Int]]
+getSubGrids [] = []
+getSubGrids xs = (getSubGrids (drop 3 (xs))) ++ getRow xs
+    where getRow xs' = getBlock xs' ++ getBlock secondCol ++ getBlock thirdCol
+          getBlock xs' = [concat (take 3 $ map (take 3) xs')]
+          secondCol = map (drop 3) xs
+          thirdCol = map (drop 6) xs
+          
+getAllSubGrids :: [[Int]] -> [[Int]]
+getAllSubGrids xs = getNRCSubGrids xs ++ getSubGrids xs
+
+validateConsistency :: [[Int]] -> Bool
+validateConsistency xs = validateRow (getAllSubGrids xs) && validateMatrix xs
