@@ -87,18 +87,30 @@ getAllSubGrids xs = getNRCSubGrids xs ++ getSubGrids xs
 validateConsistency :: [[Int]] -> Bool
 validateConsistency xs = validateRow (getAllSubGrids xs) && validateMatrix xs
 
+subSudoku :: [[Int]] -> [[Int]] -> Bool
+subSudoku [] _ = True
+subSudoku xs'@(x:xs) ys'@(y:ys)
+                | (length xs' /= length ys') = False 
+                | otherwise = (length intersectionResult == intersectionLength) && length y == length x && null (deleteFirstsBy (==) intersectionResult y) && subSudoku xs ys
+                where
+                    intersectionGrid = filter (/= 0) x
+                    intersectionLength = length intersectionGrid
+                    intersectionResult = intersect x y
+
 thd (_, _, x) = x
 
 testSudoku :: IO Bool
 testSudoku = do
-    testSudoku' 5
+    testSudoku' 10
     where
         testSudoku' 0 = return True
         testSudoku' n = do
             r <- genSudoku
-            let incompleteSudoku = sud2grid (fst (fst r))
-                solvedSudoku = snd r
+            let incompleteSudoku = (fst (fst r)) -- sud2grid (fst (fst r))
+                incompleteSudokuGrid = sud2grid incompleteSudoku
+                solvedSudoku = fst (head (snd r))
+                solvedSudokuGrid = sud2grid solvedSudoku
             testTail <- testSudoku' (n-1)
-            return (validateConsistency incompleteSudoku && testTail)
+            return (consistent incompleteSudoku && consistent solvedSudoku && validateComplete solvedSudokuGrid && validateIncomplete incompleteSudokuGrid && subSudoku incompleteSudokuGrid solvedSudokuGrid && testTail) -- && validateComplete solvedSudoku && validateIncomplete incompleteSudoku && 
             --  && validateConsistency solvedSudoku && validateIncomplete incompleteSudoku && validateComplete solvedSudoku && validateNumberPattern solvedSudoku && testTail
      
