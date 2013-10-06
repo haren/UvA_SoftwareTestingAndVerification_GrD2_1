@@ -87,6 +87,14 @@ getAllSubGrids xs = getNRCSubGrids xs ++ getSubGrids xs
 validateConsistency :: [[Int]] -> Bool
 validateConsistency xs = validateRow (getAllSubGrids xs) && validateMatrix xs
 
+
+getRandomFilledPosition :: Sudoku -> IO (Int, Int)
+getRandomFilledPosition s = do
+        let filled = filledPositions s
+        r <- getRandomInt (length filled)
+        return (filled !! r)
+    
+
 subSudoku :: [[Int]] -> [[Int]] -> Bool
 subSudoku [] _ = True
 subSudoku xs'@(x:xs) ys'@(y:ys)
@@ -106,11 +114,18 @@ testSudoku = do
         testSudoku' 0 = return True
         testSudoku' n = do
             r <- genSudoku
-            let incompleteSudoku = (fst (fst r)) -- sud2grid (fst (fst r))
+            coordinates <- getRandomFilledPosition (fst (fst r))
+            let incompleteSudoku = fst (incompleteSudokuNode) -- sud2grid (fst (fst r))
+                incompleteSudokuNode = fst r
                 incompleteSudokuGrid = sud2grid incompleteSudoku
                 solvedSudoku = fst (head (snd r))
                 solvedSudokuGrid = sud2grid solvedSudoku
+                minimalistic = uniqueSol incompleteSudokuNode
+                alteredIncomplete = eraseN incompleteSudokuNode coordinates
+                alteredMinimalistic = uniqueSol alteredIncomplete
+                
             testTail <- testSudoku' (n-1)
-            return (consistent incompleteSudoku && consistent solvedSudoku && validateComplete solvedSudokuGrid && validateIncomplete incompleteSudokuGrid && subSudoku incompleteSudokuGrid solvedSudokuGrid && testTail) -- && validateComplete solvedSudoku && validateIncomplete incompleteSudoku && 
+            
+            return (consistent incompleteSudoku && consistent solvedSudoku && validateComplete solvedSudokuGrid && validateIncomplete incompleteSudokuGrid && subSudoku incompleteSudokuGrid solvedSudokuGrid && minimalistic && (not)alteredMinimalistic && testTail) -- && validateComplete solvedSudoku && validateIncomplete incompleteSudoku && 
             --  && validateConsistency solvedSudoku && validateIncomplete incompleteSudoku && validateComplete solvedSudoku && validateNumberPattern solvedSudoku && testTail
      
