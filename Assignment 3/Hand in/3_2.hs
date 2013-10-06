@@ -57,6 +57,7 @@ getRandomForms d n = do
                      return (f:fs)
 
 -- Unaltered cnf implementation of Week2
+-- VVZ: why unaltered? where is my flattener for nested disjunctions/conjunctions?
 cnf :: Form -> Form
 cnf (Prop l) = Prop l
 cnf (Neg n) = Neg $ cnf n
@@ -89,7 +90,6 @@ testcnf = do
           let valid = map (validateElement) (c) -- validate whether the structure of the output is correct
           return (and(equal) && and(valid))
 
-
 -- We have tested the cnf with random formula's. Our results are as follows: 
 -- The cnf conversion takes as input a propositional logic statement
 -- and produces an output which should be in CNF form.
@@ -101,12 +101,22 @@ testcnf = do
 -- For the randomly generated forms, however, it is unfortunatley not the case.
 -- We are looking for the reason behind this defect.  
 
+-- VVZ: please keep me informed about this activity.
+-- VVZ: some of the things to think about:
+-- VVZ: (1) better reporting on cases - as in, "tested ... on ... failed/passed", etc, instead of "False"
+-- VVZ: (2) making patterns exhaustive (how about Dsj []?)
+-- VVZ: (3) implementing the flattener of nested conjunctions/disjunctions, just to be on the safe side
+-- VVZ: (4) rewrite parts of the program that expect weird things like binary disjunction
+-- VVZ: (5) come to me if you get stuck with any of these
+
 processToCnf :: Form -> Form
 processToCnf = cnf . nnf . arrowfree
 
 validateElement :: Form -> Bool
 validateElement (Cnj x) = length x > 1 -- conjunction should be over more than one formula's
+-- VVZ: why?
 validateElement (Prop x) = True
 validateElement (Neg x) = True
 validateElement (Dsj x) = length x == 2 -- An outer disjunction should have two elements max
+-- VVZ: why?
 validateElement (x) = False
