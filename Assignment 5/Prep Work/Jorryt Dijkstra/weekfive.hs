@@ -91,7 +91,7 @@ validateConsistency xs = validateRow (getAllSubGrids xs) && validateMatrix xs
 getRandomFilledPosition :: Sudoku -> IO (Int, Int)
 getRandomFilledPosition s = do
         let filled = filledPositions s
-        r <- getRandomInt (length filled)
+        r <- getRandomInt ((length filled) - 1)
         return (filled !! r)
     
 
@@ -106,6 +106,9 @@ subSudoku xs'@(x:xs) ys'@(y:ys)
                     intersectionResult = intersect x y
 
 thd (_, _, x) = x
+
+nrcSolution :: IO [()]
+nrcSolution = solveAndShow exampleNrc
 
 testSudoku :: IO Bool
 testSudoku = do
@@ -125,7 +128,6 @@ testSudoku = do
                 alteredMinimalistic = uniqueSol alteredIncomplete
                 
             testTail <- testSudoku' (n-1)
-            
-            return (consistent incompleteSudoku && consistent solvedSudoku && validateComplete solvedSudokuGrid && validateIncomplete incompleteSudokuGrid && subSudoku incompleteSudokuGrid solvedSudokuGrid && minimalistic && (not)alteredMinimalistic && testTail) -- && validateComplete solvedSudoku && validateIncomplete incompleteSudoku && 
-            --  && validateConsistency solvedSudoku && validateIncomplete incompleteSudoku && validateComplete solvedSudoku && validateNumberPattern solvedSudoku && testTail
+            return (consistent incompleteSudoku && consistent solvedSudoku && null(openPositions solvedSudoku) && (not)(null $ openPositions incompleteSudoku) && subSudoku incompleteSudokuGrid solvedSudokuGrid && minimalistic && (not)alteredMinimalistic && testTail)
+            -- (consistent incompleteSudoku && consistent solvedSudoku && validateComplete solvedSudokuGrid && validateIncomplete incompleteSudokuGrid && subSudoku incompleteSudokuGrid solvedSudokuGrid && minimalistic && (not)alteredMinimalistic && testTail)
      
