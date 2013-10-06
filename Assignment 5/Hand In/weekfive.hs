@@ -1,6 +1,5 @@
 -- Software verification and testing
 -- Assignment for Week 5, Date: 6-10-2013
--- Answers to the questions 2, 3, 4 and 5 
 -- Group D2_1
 -- Cigdem Aytekin 10463135,
 -- Jorryt Jan Dijkstra 10462015,
