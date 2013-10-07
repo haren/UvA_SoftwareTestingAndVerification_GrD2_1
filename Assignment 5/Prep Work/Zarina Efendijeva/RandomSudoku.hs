@@ -106,16 +106,11 @@ genProblem n = do ys <- randomize xs
                   return (minimalize n ys)
    where xs = filledPositions (fst n)
 
--- Generates a sudoku and solved one (generates NRC ones due to changing the specification)
-genSudoku = do 
-  [r] <- rsolveNs [emptyN]
-  s <- genProblem r
-  return (s, solveNs [s])
-  
-printRandomSudoku :: IO[()]
-printRandomSudoku = do
-  s <- genSudoku
-  putStrLn "Random sudoku: ";
-  showNode (fst s)
-  putStrLn "Solved: ";
-  sequence $ fmap showNode (snd s)
+--main :: IO ()
+main = do [r] <- rsolveNs [emptyN]
+          showNode r
+          s  <- genProblem r
+          showNode s
+          solveShowNs [s]
+
+             

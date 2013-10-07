@@ -87,18 +87,47 @@ getAllSubGrids xs = getNRCSubGrids xs ++ getSubGrids xs
 validateConsistency :: [[Int]] -> Bool
 validateConsistency xs = validateRow (getAllSubGrids xs) && validateMatrix xs
 
+
+getRandomFilledPosition :: Sudoku -> IO (Int, Int)
+getRandomFilledPosition s = do
+        let filled = filledPositions s
+        r <- getRandomInt ((length filled) - 1)
+        return (filled !! r)
+    
+
+subSudoku :: [[Int]] -> [[Int]] -> Bool
+subSudoku [] _ = True
+subSudoku xs'@(x:xs) ys'@(y:ys)
+                | (length xs' /= length ys') = False 
+                | otherwise = (length intersectionResult == intersectionLength) && length y == length x && null (deleteFirstsBy (==) intersectionResult y) && subSudoku xs ys
+                where
+                    intersectionGrid = filter (/= 0) x
+                    intersectionLength = length intersectionGrid
+                    intersectionResult = intersect x y
+
 thd (_, _, x) = x
+
+nrcSolution :: IO [()]
+nrcSolution = solveAndShow exampleNrc
 
 testSudoku :: IO Bool
 testSudoku = do
-    testSudoku' 5
+    testSudoku' 10
     where
         testSudoku' 0 = return True
         testSudoku' n = do
             r <- genSudoku
-            let incompleteSudoku = sud2grid (fst (fst r))
-                solvedSudoku = snd r
+            coordinates <- getRandomFilledPosition (fst (fst r))
+            let incompleteSudoku = fst (incompleteSudokuNode) -- sud2grid (fst (fst r))
+                incompleteSudokuNode = fst r
+                incompleteSudokuGrid = sud2grid incompleteSudoku
+                solvedSudoku = fst (head (snd r))
+                solvedSudokuGrid = sud2grid solvedSudoku
+                minimalistic = uniqueSol incompleteSudokuNode
+                alteredIncomplete = eraseN incompleteSudokuNode coordinates
+                alteredMinimalistic = uniqueSol alteredIncomplete
+                
             testTail <- testSudoku' (n-1)
-            return (validateConsistency incompleteSudoku && testTail)
-            --  && validateConsistency solvedSudoku && validateIncomplete incompleteSudoku && validateComplete solvedSudoku && validateNumberPattern solvedSudoku && testTail
+            return (consistent incompleteSudoku && consistent solvedSudoku && null(openPositions solvedSudoku) && (not)(null $ openPositions incompleteSudoku) && subSudoku incompleteSudokuGrid solvedSudokuGrid && minimalistic && (not)alteredMinimalistic && testTail)
+            -- (consistent incompleteSudoku && consistent solvedSudoku && validateComplete solvedSudokuGrid && validateIncomplete incompleteSudokuGrid && subSudoku incompleteSudokuGrid solvedSudokuGrid && minimalistic && (not)alteredMinimalistic && testTail)
      
