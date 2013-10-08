@@ -2,27 +2,27 @@ module Lab6
 where
 
 import Week6
+import Data.Bits
+
 -- Exercise 1. Estimated time around 4 hours. I am slow.
 -- To calculate x^p mod n
 
 {-
-
 exM1 :: Integer -> Integer -> Integer -> Integer
 exM1 x 0 n = 1
 exM1 x y n = if (mod y 2 == 0 && y >0) 
 			then exM1 (mod (x*x) n) (div y 2) n 
 			else mod ( (exM1 x ( y - 1 ) n) * x ) n 
-
 -}
 
--- Better version I think, productivity at night is high...
+-- Better version I think, productivity at night is higher...
 exMZarina :: Integer -> Integer -> Integer -> Integer
 exMZarina x y n
     | y <= 0	= 1
     | y == 1	= mod x n
     | otherwise	= if odd y
      then mod ( (exMZarina x ( y - 1 ) n) * x ) n
-     else exMZarina ( mod (x*x) n ) ( div y 2 ) n
+     else exMZarina ( mod (x*x) n ) ( shiftR y 1 ) n
 
 
 -- Exercise 2. Testing
