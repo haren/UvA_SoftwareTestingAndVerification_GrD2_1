@@ -36,11 +36,13 @@ exM' base expo modulus  = rightToLeftBinary 1 base expo modulus
                           newExponent = shiftR expo 1 -- Bit shift (dev by 2 basically)
                           newBase = mod (base * base) modulus
 
--- Test for modular exponentiation
 -- ghc -o weeksix weeksix.hs for preventing interpreter out of memory
-main = testModularExponentiation
+main :: IO ()
+main = testModularExponentiationPerformance
 
-testModularExponentiation = do
+-- Test for modular exponentiation
+testModularExponentiationPerformance :: IO ()
+testModularExponentiationPerformance = do
   amountToTest <- getRandomIntInRange 10 100
   bases <- getRandomIntsInRange amountToTest 10000000 100000000
   exponents <- getRandomIntsInRange amountToTest 10000000 100000000
@@ -59,8 +61,9 @@ testModularExponentiation = do
               
           putStrLn("-- Test for input: " ++ show x' ++ "^" ++ show y' ++ " modulo " ++ show z)
           
-          timeIt $ putStrLn ("ExpM: " ++ (show ((expM x' y' z'))))
-          timeIt $ putStrLn ("ExM': " ++ (show ((exM' x' y' z'))))
+          timeIt $ putStrLn ("ExpM: " ++ show (expM x' y' z'))
+          timeIt $ putStrLn ("ExM': " ++ show (exM' x' y' z'))
+          
           putChar '\n'
           testExponentialModulus' xs ys zs
 
@@ -74,7 +77,8 @@ carmichael = [ (6*k+1)*(12*k+1)*(18*k+1) | k <- [2..], isPrime (6*k+1), isPrime 
 testFermat :: IO ()
 testFermat = do
   accuracy <- getRandomIntInRange 10 100 -- amount of tests to do for each primality check (determines the accuracy obviously)
-  amount <- getRandomIntInRange 1000 10000
+  amount <- getRandomIntInRange 1000 10000 -- amount of numbers to test of the composites and carmichael numbers
+  carmichaelAmount <- getRandomIntInRange 100 500 -- these are huge so they take a long time, use a different amount
   staticTest <- prime_test_F 1
   staticTest2 <- prime_test_F 2
   staticTest3 <- prime_test_F 3
@@ -85,10 +89,10 @@ testFermat = do
   putStrLn ("3: " ++ show staticTest3)
   putStrLn ("Testing the numbers from the first " ++ show amount ++ " composite and the carmichael numbers for primality")
   dynamicTest <- repeatFermatCheck accuracy amount composites
-  carmichaelTest <- repeatFermatCheck accuracy amount carmichael
+  carmichaelTest <- repeatFermatCheck accuracy carmichaelAmount carmichael
   
   putStrLn ("Composite numbers found as false positives: " ++ show dynamicTest)
-  -- putStrLn ("Carmichael numbers found as false positives: " ++ show carmichaelTest)
+  putStrLn ("Carmichael numbers found as false positives: " ++ show carmichaelTest)
   putStrLn "End of test"
 
   where
@@ -115,7 +119,7 @@ testFermat = do
 testMillerRabin :: IO ()
 testMillerRabin = do
   accuracy <- getRandomIntInRange 10 100 -- amount of tests to do for each primality check (determines the accuracy obviously)
-  amount <- getRandomIntInRange 10 20
+  amount <- getRandomIntInRange 30 100
   putStrLn ("Testing MR test with " ++ show amount ++ " carmichael numbers, with initial accuracy " ++ show accuracy ++ " and loosening it over time")
   results <- repeatMillerCheck accuracy (take amount carmichael)
   putStrLn("Results of false positives (format: (accuracy, [prime numbers]):\n " ++ show results)
@@ -123,20 +127,14 @@ testMillerRabin = do
         -- Loop for the miller check with decreasing accuracies
         repeatMillerCheck 0 (x:xs) = return []
         repeatMillerCheck a xs = do
-          result <- testMillerRabin' a xs
-          testTail <- repeatMillerCheck (a-1) xs
-          return ((a, result) : testTail)
-
-        -- TODO: refactor to above function
-        testMillerRabin' 0 _ = return []
-        testMillerRabin' a xs = do
+          -- Do the check over the whole xs list
           results <- mapM (\x -> primeMR a x) xs
           let zippedResults = zip xs results
               outputResults = map (fst) (filter (\(_,y) -> y) zippedResults)
           mapM_ (\(x,y) -> putStrLn $ show x ++ ": " ++ show y) zippedResults
 
-          testTail <- testMillerRabin' (a-1) xs
-          return (outputResults ++ testTail)
+          testTail <- repeatMillerCheck (a-1) xs
+          return ((a,outputResults) : testTail)
 
 -- Parameter is the amount of primes to consider
 generateMersennePrimes :: Int -> IO [Integer]
@@ -197,8 +195,7 @@ testRSA = do
   rsa <- setupRSA -- generates rsa public key pair and a private key
   amountToTest <- getRandomIntInRange 100 1000 -- random amount to test for le fun
 
-  let 
-      publicPair = fst rsa -- returns a tuple with (n, e)
+  let publicPair = fst rsa -- returns a tuple with (n, e)
       privateKey = snd rsa -- returns d
   
       -- Static test
