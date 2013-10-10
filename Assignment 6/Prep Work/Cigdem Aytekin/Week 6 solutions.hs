@@ -67,7 +67,8 @@ sieve2 (n:ns)
    
  
 -- findFalsePositives uses prime_test_F for Fermat's primality 
--- check
+-- check. It returns the list of numbers which, according to
+-- Fermat's test 'are' primary numbers.
 findFalsePositives :: [Integer] -> IO [Integer]
 findFalsePositives  [] = return []
 findFalsePositives  [i] = do
@@ -86,7 +87,7 @@ findFalsePositives (x:xs)   = do
 findFalsePositivesAdv :: [Integer] -> IO [Integer]
 findFalsePositivesAdv  [] = return []
 findFalsePositivesAdv  [i] = do
-                        myBool <- primeF 130 i
+                        myBool <- primeF 3 i
                         if (myBool) 
                            then return [i]
                            else return []
@@ -106,6 +107,11 @@ findFalsePositivesAdv (x:xs)   = do
 -- this primality test cannot be relied upon to prove the 
 -- primality of a number, although it can still be used to 
 -- prove a number is composite.
+-- A few carmichael numbers:
+-- [294409,56052361,118901521,172947529,216821881,228842209]
+
+-- this function counts the number of carmichael numbers which are
+-- marked as primary by function findFalsePositivesAdv
 
 carmichaelIOTest :: IO Int
 carmichaelIOTest = do
@@ -114,7 +120,40 @@ carmichaelIOTest = do
                     return lenOfYs    
                          
 
--- [294409,56052361,118901521,172947529,216821881,228842209]
+
+-- Answer 6: Use the list from the previous exercise to test the 
+-- Miller-Rabin primality check. What do you find?
+-- Miller Rabin test is a god test, it did not give any false
+-- poisitives with carmichael numbers in my tests.
+
+millerRabinTest :: [Integer] -> IO [Integer]
+millerRabinTest  [] = return []
+millerRabinTest  [i] = do
+                        myBool <- primeMR 10 i
+                        if (myBool) 
+                           then return [i]
+                           else return []
+millerRabinTest (x:xs)   = do
+                            y <- millerRabinTest [x]
+                            ys <- millerRabinTest xs
+                            return ( y ++ ys)
 
 
+-- Answer 7: Following function finds the Mersenne primes
+-- using Miller rabin test. I run this test to see up to
+-- which Mersenne number I can find.
+-- Until now, I could find until: 4423, i.e. (2^4423 - 1)
 
+mersennePrimeTest :: [Integer] -> IO [Integer]
+mersennePrimeTest [] = return []
+mersennePrimeTest [i] = do 
+                          myBool <- primeMR 10 (2^i - 1)
+                          if (myBool)
+                            then return [i]
+                            else return []    
+mersennePrimeTest (x:xs) = do
+                            y <- mersennePrimeTest [x]
+                            ys <- mersennePrimeTest xs
+                            return ( y ++ ys )
+                            
+                            
