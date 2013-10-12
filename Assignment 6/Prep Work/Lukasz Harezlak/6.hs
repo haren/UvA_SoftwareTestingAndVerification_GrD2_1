@@ -108,3 +108,8 @@ CPU time: 102.39s
 -}	
 
 -- 6.3
+-- 20 minutes
+composites :: [Integer]
+composites = filter (not . isPrime) [4..]
+
+-- 6.4
