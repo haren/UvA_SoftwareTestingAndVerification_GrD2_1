@@ -2,6 +2,7 @@ import Lab6
 import Week6
 import TimeIt
 import System.Random
+import Control.Monad
 -- 6.1
 -- 1 hour
 
@@ -526,7 +527,7 @@ test_mr_carmichael = do
   where  
         perform_test 0 n (x:xs) = return 0
         perform_test a n xs = do        
-          result <- test_fermat' a n xs      
+          result <- test_mr' a n xs      
           putStrLn("Run : " ++ show a ++ ", false primes:")
           putStrLn (show (length result) ++ " out of " ++ show n ++ " rendered false primes.")
           putStrLn (show result)    
@@ -534,10 +535,10 @@ test_mr_carmichael = do
           testTail <- perform_test (a-1) n xs            
           return (length result)
 
-        test_fermat' _ 0 _ = return []
-        test_fermat' a n (x:xs) = do
+        test_mr' _ 0 _ = return []
+        test_mr' a n (x:xs) = do
           result <- primeMR a x         
-          testTail <- test_fermat' a (n-1) xs
+          testTail <- test_mr' a (n-1) xs
           
           if result
             then return (x : testTail)
@@ -607,3 +608,32 @@ Almost none render false primes.
 -}            
 
 -- 6.7
+
+generateMersennePrimes :: Int -> Int -> IO([Integer])
+generateMersennePrimes n acc = do 
+  let mersennePrimes = [ (2^p-1) | p <- take n primes ]
+  results <- filterM (\x -> primeMR acc x) mersennePrimes
+  putStrLn(show (length results))
+  return results
+  
+{-
+*Main> generateMersennePrimes 100
+13
+[
+3,
+7,
+31,
+127,
+8191,
+131071,
+524287,
+2147483647,
+2305843009213693951,
+618970019642690137449562111,
+162259276829213363391578010288127,
+170141183460469231731687303715884105727,
+6864797660130609714981900799081393217269435300143305409394463459185543183397656052122559640661454554977296311391480858037121987999716643812574028291115057151
+]
+
+Only 13 found. Integer size exceeded
+-}
