@@ -113,3 +113,54 @@ composites :: [Integer]
 composites = filter (not . isPrime) [4..]
 
 -- 6.4
+-- 1 hour
+	
+test_fermat :: IO ()
+test_fermat = do
+  runs <- getRandomIntInRange 1 10 -- amount of tests to do for each primality check (determines the accuracy obviously)  
+  putStrLn("Runs: " ++ show runs)
+  amount <- getRandomIntInRange 1000 10000 
+ 
+  perform_test runs amount composites  
+  putStrLn ("Finished")
+
+  where  
+        perform_test 0 n (x:xs) = putStrLn("")
+        perform_test a n xs = do        
+          result <- test_fermat' a n xs      
+
+          putStrLn("Run : " ++ show a ++ ", false primes:")
+          putStrLn (show result)    
+
+          testTail <- perform_test (a-1) n xs                    
+          putStrLn("")
+
+        test_fermat' _ 0 _ = return []
+        test_fermat' a n (x:xs) = do
+          result <- primeF a x         
+          testTail <- test_fermat' a (n-1) xs
+          
+          if result
+	          then return (x : testTail)
+	          else return testTail
+
+{-
+Lowest false positive : 4 
+
+*Main> test_fermat
+Runs: 5
+Run : 5, false primes:
+[1729]
+Run : 4, false primes:
+[561,2465]
+Run : 3, false primes:
+[561,703,1105,1729,2465,6601]
+Run : 2, false primes:
+[39,481,793,1105,1729,2701,6601]
+Run : 1, false primes:
+[4,21,33,45,87,105,133,175,246,273,303,341,447,561,679,703,833,973,1359,1387,172
+9,1785,1817,2117,2359,2465,2499,2871,3201,3565,3669,3751,4069,4489,5185,5611,562
+9,5707,6031,6409,6601,7285,7449,7527]
+Finished
+
+-}
