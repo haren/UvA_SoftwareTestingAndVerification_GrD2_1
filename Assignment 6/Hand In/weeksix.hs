@@ -34,7 +34,7 @@ getRandomIntsInRange n x y = do
     return (f : fs)
 
 -- Answer 1: Implement the exM function.
--- Improved exM function using right to left binary method
+-- Improved exM function using right to left binary method.
 -- Time spent: about three hours.
 exM' :: Integer -> Integer -> Integer -> Integer
 exM' base expo modulus  = rightToLeftBinary 1 base expo modulus
