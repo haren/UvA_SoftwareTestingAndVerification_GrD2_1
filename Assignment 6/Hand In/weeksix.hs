@@ -83,9 +83,9 @@ testModularExponentiationPerformance = do
           putChar '\n'
           testExponentialModulus' xs ys zs
 
--- Note: Zarina en Cigdem wrote two different ExM 
--- implementations, they can be found in their Prep Work
--- directory. They are also much faster than expM.
+-- Note: There are three more versions of exM, these can be found 
+-- in the Prep Work directories of Zarina, Lukasz and Cigdem 
+-- They are also faster than expM.
 
 
 
