@@ -1,0 +1,596 @@
+Starting 99 tests of different modulo exponentiations
+-- Test for input: 72896495^27459319 modulo 70715835
+ExpM: 65374070
+CPU time:  23.20s
+ExM': 65374070
+CPU time:   0.00s
+
+-- Test for input: 86073864^75621554 modulo 91415651
+ExpM: 22294596
+CPU time:  70.04s
+ExM': 22294596
+CPU time:   0.00s
+
+-- Test for input: 33170840^85205869 modulo 23799624
+ExpM: 16864520
+CPU time:  73.85s
+ExM': 16864520
+CPU time:   0.00s
+
+-- Test for input: 34905784^64760961 modulo 19437828
+ExpM: 6244804
+CPU time:  61.71s
+ExM': 6244804
+CPU time:   0.00s
+
+-- Test for input: 48449926^13109306 modulo 57901022
+ExpM: 48413934
+CPU time:  10.01s
+ExM': 48413934
+CPU time:   0.00s
+
+-- Test for input: 75223762^26939809 modulo 24000778
+ExpM: 15380030
+CPU time:  22.84s
+ExM': 15380030
+CPU time:   0.00s
+
+-- Test for input: 21675054^75691363 modulo 73186535
+ExpM: 55377689
+CPU time:  64.20s
+ExM': 55377689
+CPU time:   0.00s
+
+-- Test for input: 24424136^97285969 modulo 3600843
+ExpM: 2506139
+CPU time:  89.18s
+ExM': 2506139
+CPU time:   0.00s
+
+-- Test for input: 75003898^38972928 modulo 55291024
+ExpM: 26604000
+CPU time:  34.53s
+ExM': 26604000
+CPU time:   0.00s
+
+-- Test for input: 56101499^78986727 modulo 21548918
+ExpM: 10484983
+CPU time:  71.86s
+ExM': 10484983
+CPU time:   0.00s
+
+-- Test for input: 13057864^10821674 modulo 39649050
+ExpM: 21337366
+CPU time:   7.25s
+ExM': 21337366
+CPU time:   0.00s
+
+-- Test for input: 48591806^77604162 modulo 11951325
+ExpM: 6449086
+CPU time:  69.62s
+ExM': 6449086
+CPU time:   0.00s
+
+-- Test for input: 19287211^50856920 modulo 36181126
+ExpM: 29837241
+CPU time:  42.14s
+ExM': 29837241
+CPU time:   0.00s
+
+-- Test for input: 35035104^73771765 modulo 4563592
+ExpM: 3975720
+CPU time:  70.96s
+ExM': 3975720
+CPU time:   0.00s
+
+-- Test for input: 84386477^68538350 modulo 53582885
+ExpM: 24590359
+CPU time:  68.38s
+ExM': 24590359
+CPU time:   0.00s
+
+-- Test for input: 35058652^69500773 modulo 22050249
+ExpM: 12635914
+CPU time:  66.10s
+ExM': 12635914
+CPU time:   0.00s
+
+-- Test for input: 80973440^18025822 modulo 9707695
+ExpM: 2462665
+CPU time:  15.52s
+ExM': 2462665
+CPU time:   0.00s
+
+-- Test for input: 87399423^31669841 modulo 29066608
+ExpM: 10030703
+CPU time:  29.28s
+ExM': 10030703
+CPU time:   0.00s
+
+-- Test for input: 34333728^84178750 modulo 60490272
+ExpM: 44858112
+CPU time:  71.81s
+ExM': 44858112
+CPU time:   0.00s
+
+-- Test for input: 44016317^60899352 modulo 71578382
+ExpM: 61002289
+CPU time:  55.55s
+ExM': 61002289
+CPU time:   0.00s
+
+-- Test for input: 24695114^83483770 modulo 69726993
+ExpM: 11894950
+CPU time:  75.40s
+ExM': 11894950
+CPU time:   0.00s
+
+-- Test for input: 99076987^96014546 modulo 83112172
+ExpM: 47929781
+CPU time: 100.92s
+ExM': 47929781
+CPU time:   0.00s
+
+-- Test for input: 97690899^67890278 modulo 36830846
+ExpM: 15222763
+CPU time:  68.18s
+ExM': 15222763
+CPU time:   0.00s
+
+-- Test for input: 60384808^76705767 modulo 33228778
+ExpM: 12109680
+CPU time:  69.46s
+ExM': 12109680
+CPU time:   0.00s
+
+-- Test for input: 93009130^54050362 modulo 7903756
+ExpM: 1155648
+CPU time:  49.95s
+ExM': 1155648
+CPU time:   0.00s
+
+-- Test for input: 63544573^15845312 modulo 39707094
+ExpM: 18525697
+CPU time:  13.56s
+ExM': 18525697
+CPU time:   0.00s
+
+-- Test for input: 72539139^96515768 modulo 43607739
+ExpM: 5667957
+CPU time:  93.68s
+ExM': 5667957
+CPU time:   0.00s
+
+-- Test for input: 41642846^67255277 modulo 73609472
+ExpM: 54767104
+CPU time:  55.55s
+ExM': 54767104
+CPU time:   0.00s
+
+-- Test for input: 83085335^20034691 modulo 91415853
+ExpM: 27352745
+CPU time:  16.53s
+ExM': 27352745
+CPU time:   0.00s
+
+-- Test for input: 24071108^51940357 modulo 78745540
+ExpM: 56973888
+CPU time:  43.30s
+ExM': 56973888
+CPU time:   0.00s
+
+-- Test for input: 22398897^61697442 modulo 65946539
+ExpM: 43583651
+CPU time:  55.70s
+ExM': 43583651
+CPU time:   0.00s
+
+-- Test for input: 23707367^56408533 modulo 94291922
+ExpM: 89520877
+CPU time:  47.97s
+ExM': 89520877
+CPU time:   0.00s
+
+-- Test for input: 88153124^89831906 modulo 53030357
+ExpM: 13135816
+CPU time:  84.95s
+ExM': 13135816
+CPU time:   0.00s
+
+-- Test for input: 21701620^61675005 modulo 73275674
+ExpM: 59060268
+CPU time:  55.16s
+ExM': 59060268
+CPU time:   0.00s
+
+-- Test for input: 94797129^46357420 modulo 26563725
+ExpM: 10363176
+CPU time:  42.44s
+ExM': 10363176
+CPU time:   0.00s
+
+-- Test for input: 69172143^38533639 modulo 87300497
+ExpM: 85141435
+CPU time:  33.46s
+ExM': 85141435
+CPU time:   0.00s
+
+-- Test for input: 16845570^92422968 modulo 62282703
+ExpM: 30647799
+CPU time:  80.94s
+ExM': 30647799
+CPU time:   0.00s
+
+-- Test for input: 86550266^47406132 modulo 40320122
+ExpM: 31834928
+CPU time:  44.21s
+ExM': 31834928
+CPU time:   0.00s
+
+-- Test for input: 96069571^52517979 modulo 82040048
+ExpM: 24070027
+CPU time:  46.76s
+ExM': 24070027
+CPU time:   0.00s
+
+-- Test for input: 28858547^52233125 modulo 29402390
+ExpM: 23236387
+CPU time:  43.80s
+ExM': 23236387
+CPU time:   0.00s
+
+-- Test for input: 30117922^56711059 modulo 80169026
+ExpM: 3461264
+CPU time:  49.69s
+ExM': 3461264
+CPU time:   0.00s
+
+-- Test for input: 67796584^86493695 modulo 53412091
+ExpM: 35165109
+CPU time:  80.31s
+ExM': 35165109
+CPU time:   0.00s
+
+-- Test for input: 48315126^84386413 modulo 74199484
+ExpM: 4149816
+CPU time:  78.09s
+ExM': 4149816
+CPU time:   0.00s
+
+-- Test for input: 61399645^51519901 modulo 41429026
+ExpM: 15458557
+CPU time:  43.27s
+ExM': 15458557
+CPU time:   0.00s
+
+-- Test for input: 78035500^82253325 modulo 57456548
+ExpM: 10609876
+CPU time:  81.23s
+ExM': 10609876
+CPU time:   0.00s
+
+-- Test for input: 45923402^74563422 modulo 43088692
+ExpM: 40452820
+CPU time:  72.57s
+ExM': 40452820
+CPU time:   0.00s
+
+-- Test for input: 48089045^71313937 modulo 53690386
+ExpM: 15123087
+CPU time:  72.73s
+ExM': 15123087
+CPU time:   0.00s
+
+-- Test for input: 28886074^20386608 modulo 53080849
+ExpM: 39389985
+CPU time:  17.02s
+ExM': 39389985
+CPU time:   0.00s
+
+-- Test for input: 65081456^89130181 modulo 62905621
+ExpM: 49371072
+CPU time:  82.30s
+ExM': 49371072
+CPU time:   0.00s
+
+-- Test for input: 38678856^38681120 modulo 81181397
+ExpM: 38625863
+CPU time:  33.04s
+ExM': 38625863
+CPU time:   0.00s
+
+-- Test for input: 21822926^43196111 modulo 70587649
+ExpM: 61974972
+CPU time:  34.88s
+ExM': 61974972
+CPU time:   0.00s
+
+-- Test for input: 81097324^50686869 modulo 18556486
+ExpM: 3647736
+CPU time:  43.51s
+ExM': 3647736
+CPU time:   0.00s
+
+-- Test for input: 74192096^86155234 modulo 31390752
+ExpM: 13943968
+CPU time:  80.00s
+ExM': 13943968
+CPU time:   0.00s
+
+-- Test for input: 38553962^77636096 modulo 80219879
+ExpM: 71587121
+CPU time:  69.91s
+ExM': 71587121
+CPU time:   0.00s
+
+-- Test for input: 52129002^78498259 modulo 49730835
+ExpM: 32751483
+CPU time:  71.81s
+ExM': 32751483
+CPU time:   0.00s
+
+-- Test for input: 62231363^55171490 modulo 47716463
+ExpM: 31341288
+CPU time:  49.16s
+ExM': 31341288
+CPU time:   0.00s
+
+-- Test for input: 36954363^91249893 modulo 8557225
+ExpM: 4752753
+CPU time:  85.75s
+ExM': 4752753
+CPU time:   0.00s
+
+-- Test for input: 18568589^84718840 modulo 72694887
+ExpM: 20985913
+CPU time:  71.67s
+ExM': 20985913
+CPU time:   0.00s
+
+-- Test for input: 34686365^43458715 modulo 51040984
+ExpM: 24798101
+CPU time:  37.11s
+ExM': 24798101
+CPU time:   0.00s
+
+-- Test for input: 57413688^77905002 modulo 55710479
+ExpM: 5505823
+CPU time:  70.01s
+ExM': 5505823
+CPU time:   0.00s
+
+-- Test for input: 49458127^54458912 modulo 10360452
+ExpM: 8372653
+CPU time:  47.57s
+ExM': 8372653
+CPU time:   0.00s
+
+-- Test for input: 78658366^88796129 modulo 93242920
+ExpM: 48358856
+CPU time:  84.68s
+ExM': 48358856
+CPU time:   0.00s
+
+-- Test for input: 60387858^44544572 modulo 95864690
+ExpM: 32545116
+CPU time:  39.56s
+ExM': 32545116
+CPU time:   0.00s
+
+-- Test for input: 13068569^97754508 modulo 8962494
+ExpM: 2300119
+CPU time:  86.02s
+ExM': 2300119
+CPU time:   0.00s
+
+-- Test for input: 52938249^52214391 modulo 81316819
+ExpM: 58136796
+CPU time:  44.63s
+ExM': 58136796
+CPU time:   0.00s
+
+-- Test for input: 62623624^84209313 modulo 75451503
+ExpM: 38186704
+CPU time:  77.57s
+ExM': 38186704
+CPU time:   0.00s
+
+-- Test for input: 36156456^97591645 modulo 49878947
+ExpM: 31782981
+CPU time:  95.45s
+ExM': 31782981
+CPU time:   0.00s
+
+-- Test for input: 91565053^95138326 modulo 53233556
+ExpM: 47794521
+CPU time:  93.58s
+ExM': 47794521
+CPU time:   0.00s
+
+-- Test for input: 57461619^47509859 modulo 76365580
+ExpM: 40831159
+CPU time:  43.31s
+ExM': 40831159
+CPU time:   0.00s
+
+-- Test for input: 36403519^59288346 modulo 83298687
+ExpM: 69559012
+CPU time:  53.33s
+ExM': 69559012
+CPU time:   0.00s
+
+-- Test for input: 22535133^50439042 modulo 85785507
+ExpM: 41397156
+CPU time:  40.69s
+ExM': 41397156
+CPU time:   0.00s
+
+-- Test for input: 67801739^72478442 modulo 21521756
+ExpM: 18921233
+CPU time:  72.27s
+ExM': 18921233
+CPU time:   0.00s
+
+-- Test for input: 65562566^31634101 modulo 20916254
+ExpM: 14968976
+CPU time:  29.51s
+ExM': 14968976
+CPU time:   0.00s
+
+-- Test for input: 82971311^24176065 modulo 98532843
+ExpM: 56899673
+CPU time:  21.19s
+ExM': 56899673
+CPU time:   0.00s
+
+-- Test for input: 74306004^13101012 modulo 8901329
+ExpM: 5227148
+CPU time:  10.69s
+ExM': 5227148
+CPU time:   0.00s
+
+-- Test for input: 28881086^75768394 modulo 72575022
+ExpM: 60428992
+CPU time:  67.11s
+ExM': 60428992
+CPU time:   0.00s
+
+-- Test for input: 56052303^11837478 modulo 12358636
+ExpM: 8994773
+CPU time:   9.66s
+ExM': 8994773
+CPU time:   0.00s
+
+-- Test for input: 45900596^18352149 modulo 95636259
+ExpM: 42660008
+CPU time:  15.95s
+ExM': 42660008
+CPU time:   0.00s
+
+-- Test for input: 52419951^34460570 modulo 22270081
+ExpM: 13101923
+CPU time:  31.12s
+ExM': 13101923
+CPU time:   0.00s
+
+-- Test for input: 49875120^90357766 modulo 22738116
+ExpM: 18469392
+CPU time:  83.51s
+ExM': 18469392
+CPU time:   0.00s
+
+-- Test for input: 91187294^77739786 modulo 99354958
+ExpM: 83220462
+CPU time:  72.60s
+ExM': 83220462
+CPU time:   0.00s
+
+-- Test for input: 25036565^55699557 modulo 42735064
+ExpM: 15374205
+CPU time:  47.77s
+ExM': 15374205
+CPU time:   0.00s
+
+-- Test for input: 38475389^75158039 modulo 25799201
+ExpM: 9420135
+CPU time:  75.35s
+ExM': 9420135
+CPU time:   0.00s
+
+-- Test for input: 38439262^80399305 modulo 89502284
+ExpM: 54352488
+CPU time:  73.20s
+ExM': 54352488
+CPU time:   0.00s
+
+-- Test for input: 11739306^23107080 modulo 51743838
+ExpM: 18936636
+CPU time:  17.23s
+ExM': 18936636
+CPU time:   0.00s
+
+-- Test for input: 21085986^72846782 modulo 40033337
+ExpM: 22584514
+CPU time:  67.70s
+ExM': 22584514
+CPU time:   0.00s
+
+-- Test for input: 63147985^45821202 modulo 98857276
+ExpM: 85829633
+CPU time:  41.03s
+ExM': 85829633
+CPU time:   0.00s
+
+-- Test for input: 67726917^43992084 modulo 849314
+ExpM: 515937
+CPU time:  39.86s
+ExM': 515937
+CPU time:   0.00s
+
+-- Test for input: 15078246^15720326 modulo 33117088
+ExpM: 22015552
+CPU time:  12.52s
+ExM': 22015552
+CPU time:   0.00s
+
+-- Test for input: 38030995^33586439 modulo 94152941
+ExpM: 78753274
+CPU time:  24.17s
+ExM': 78753274
+CPU time:   0.00s
+
+-- Test for input: 16236496^57453413 modulo 65773622
+ExpM: 25680450
+CPU time:  48.76s
+ExM': 25680450
+CPU time:   0.00s
+
+-- Test for input: 62460454^15785866 modulo 88596260
+ExpM: 80586416
+CPU time:  13.50s
+ExM': 80586416
+CPU time:   0.00s
+
+-- Test for input: 50128959^73564357 modulo 85507618
+ExpM: 14603007
+CPU time:  71.50s
+ExM': 14603007
+CPU time:   0.00s
+
+-- Test for input: 11214023^35213660 modulo 35931154
+ExpM: 11146699
+CPU time:  29.02s
+ExM': 11146699
+CPU time:   0.00s
+
+-- Test for input: 76360083^84295591 modulo 12493824
+ExpM: 8801403
+CPU time:  79.70s
+ExM': 8801403
+CPU time:   0.00s
+
+-- Test for input: 74502485^87643058 modulo 18905590
+ExpM: 18816955
+CPU time:  86.02s
+ExM': 18816955
+CPU time:   0.00s
+
+-- Test for input: 48398662^45866888 modulo 22764519
+ExpM: 22731598
+CPU time:  41.36s
+ExM': 22731598
+CPU time:   0.00s
+
+-- Test for input: 98712134^40652754 modulo 10202854
+ExpM: 4032984
+CPU time:  37.61s
+ExM': 4032984
+CPU time:   0.00s
+
+-- Test for input: 21305785^59419031 modulo 83870575
+ExpM: 76205900
+CPU time:  51.67s
+ExM': 76205900
+CPU time:   0.00s
+
+End
