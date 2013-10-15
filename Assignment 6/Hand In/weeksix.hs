@@ -241,7 +241,7 @@ setupRSA = do
 
 generateUniqueLargeRandomPrime :: Integer -> IO Integer
 generateUniqueLargeRandomPrime otherPrime = do
-  p <- getRandomIntegerInRange 10000000000000000000000000000000000000000000000 90000000000000000000000000000000000000000000000 -- large enough? :)
+  p <- getRandomIntegerInRange 10000000000000000000000000000000000000000000000 10900000000000000000000000000000000000000000000 -- large enough? :)
   result <- primeMR 10 (fromIntegral p) -- 10 tests is considered acceptable by me
   if ((not) result || p == otherPrime) -- make sure the result is a prime and NOT equal to the other prime provided
   then generateUniqueLargeRandomPrime otherPrime  -- repeat the process for a unique prime
