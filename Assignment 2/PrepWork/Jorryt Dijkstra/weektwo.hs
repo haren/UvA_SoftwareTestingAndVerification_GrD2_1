@@ -1,23 +1,31 @@
--- J. Dijkstra
--- Software Testing - Lab Assignment 2
+-- Software verification and testing
+-- Lab 2 Assignment 1
+-- Group D2_1
+-- Cigdem Aytekin 10463135,
+-- Jorryt Jan Dijkstra 10462015,
+-- Zarina Efendijeva 10628185, 
+-- Lukasz Harezlak, 10630171 
+
 import Data.List
 import Data.Array.IO
 import Week2
 
 data Shape = NoTriangle | Equilateral | Isosceles | Rectangular | Other deriving (Eq, Show)
 triangle :: Integer -> Integer -> Integer -> Shape
-triangle x y z
-		| (x <= 0 || y <= 0 || z <= 0) = NoTriangle -- or error "Invalid input on coordinates" would also be fine
-		| not (triangleDefinition x y z) = NoTriangle
-		| (x == y && y == z) = Equilateral
-		| (x == y || y == z || x == z) = Isosceles
-		| (pythagoras(sort[x,y,z])) = Rectangular
-		| otherwise = Other
-		where
-			pythagoras [x,y,z] = (x^2 + y^2) == z^2
-			triangleDefinition x y z = (x + y) > z && (y + z) > x && (z + x) > y
+
+triangle a b c
+	| (a <= 0 || b <= 0 || c <= 0) || (a + b <= c || b + c <= a || a + c <= b) = NoTriangle 	-- Checking if sides are negative or equal to 0, if so then it's not a triangle and checking if sum of 2 sides is bigger than the 3rd one, if not then not a triangle
+	| a == b && b == c  = Equilateral			-- Checking if 3 sides are equal to satisfy equilaterality 
+	| (pythagoras(sort[a,b,c]))
+	| ((a> b && a>c) || (b>a && b >c) || (c>a && c>b)) &&  ( a/=b || b/=c || a/=c) = Rectangular	-- Searching for hypotenuse & Excluding Isosceles triangle		
+	| a == b  || b == c || a == c  = Isosceles		-- Checking if any of 2 sides are equal, if so then it's a isosceles triangle  
+	| otherwise = Other  -- For any other kind of triangles
+	where
+			pythagoras [a,b,c] = c^2==(a^2 + b^2)  -- Checking Pythagorean theorem
 
 
+
+ -- Test Scenarios: 
 testPythagoras :: Bool
 testPythagoras = inputPythagoras [1..1000000] [1..1000000]
 
@@ -78,19 +86,3 @@ inputOther (x:xs) (y:ys) (z:zs)
 		tail = inputOther xs ys zs
 
 testTriangle = testEquilateral && testIscosceles && testPythagoras && testNoTriangle && testOther
-
-------
-
-contradiction :: Form -> Bool
-contradiction f = all (\v -> not $ eval v f) (allVals f)
-
-tautology :: Form -> Bool
-tautology f = all (\v -> eval v f) (allVals f)
-
-entails :: Form -> Form -> Bool
-entails x y = tautology $ Impl x y
-
-equiv :: Form -> Form -> Bool
-equiv x y = tautology $ Equiv x y
-
-testEquiv = equiv p p

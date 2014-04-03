@@ -10,7 +10,7 @@ import Week3
 -- Group D2_1
 -- Cigdem Aytekin 10463135,
 -- Jorryt Jan Dijkstra 10462015,
--- Zarina Efendijeva 10628185,
+-- Z.E 10628185,
 -- Lukasz Harezlak, 10630171
 
 
